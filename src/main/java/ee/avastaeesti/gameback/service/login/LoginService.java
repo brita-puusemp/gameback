@@ -1,7 +1,6 @@
 package ee.avastaeesti.gameback.service.login;
 
 import ee.avastaeesti.gameback.controller.login.dto.LoginResponse;
-import ee.avastaeesti.gameback.infrastructure.Error;
 import ee.avastaeesti.gameback.infrastructure.exception.ForbiddenException;
 import ee.avastaeesti.gameback.persistence.user.User;
 import ee.avastaeesti.gameback.persistence.user.UserMapper;
@@ -19,7 +18,7 @@ public class LoginService {
     private final UserMapper userMapper;
 
     public LoginResponse login(String username, String password) {
-        User user = userRepository.findUserBy(username, password, ACTIVE.getCode()).orElseThrow(() -> new ForbiddenException(INCORRECT_CREDENTIALS.getMessage(),INCORRECT_CREDENTIALS.getErrorCode()));
+        User user = userRepository.findUserBy(username, password, ACTIVE.getCode()).orElseThrow(() -> new ForbiddenException(INCORRECT_CREDENTIALS.getMessage(), INCORRECT_CREDENTIALS.getErrorCode()));
         LoginResponse loginResponse = userMapper.toLoginResponse(user);
         return loginResponse;
     }
