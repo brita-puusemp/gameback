@@ -13,6 +13,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginResponse implements Serializable {
-    private Integer id;
-    private String roleRoleName;
+    private Integer userId;
+    private String roleName;
 }
