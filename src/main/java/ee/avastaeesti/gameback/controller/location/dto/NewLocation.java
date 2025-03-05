@@ -31,5 +31,5 @@ public class NewLocation implements Serializable {
     private String clue;
 
     @NotNull
-    private byte[] imageData;
+    private String imageData;
 }
