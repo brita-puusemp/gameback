@@ -1,7 +1,6 @@
 package ee.avastaeesti.gameback.service.user;
 
 import ee.avastaeesti.gameback.controller.user.dto.NewUser;
-import ee.avastaeesti.gameback.infrastructure.Error;
 import ee.avastaeesti.gameback.infrastructure.exception.ForbiddenException;
 import ee.avastaeesti.gameback.persistence.role.Role;
 import ee.avastaeesti.gameback.persistence.role.RoleRepository;
@@ -29,9 +28,9 @@ public class UserService {
             throw new ForbiddenException(USERNAME_EXISTS.getMessage(), USERNAME_EXISTS.getErrorCode());
         }
         if (userRepository.existsByEmail(newUser.getEmail())) {
-            throw new ForbiddenException(EMAIL_EXISTS.getMessage(),EMAIL_EXISTS.getErrorCode());
+            throw new ForbiddenException(EMAIL_EXISTS.getMessage(), EMAIL_EXISTS.getErrorCode());
         }
-        
+
         Role role = roleRepository.getReferenceById(2);
         User user = userMapper.toUser(newUser);
         user.setRole(role);
