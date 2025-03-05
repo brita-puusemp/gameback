@@ -31,11 +31,7 @@ public class UserService {
         if (userRepository.existsByEmail(newUser.getEmail())) {
             throw new ForbiddenException(EMAIL_EXISTS.getMessage(),EMAIL_EXISTS.getErrorCode());
         }
-
-
-
-
-
+        
         Role role = roleRepository.getReferenceById(2);
         User user = userMapper.toUser(newUser);
         user.setRole(role);

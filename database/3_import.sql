@@ -5,3 +5,6 @@ INSERT INTO game.role (id, role_name) VALUES (default, 'user');
 INSERT INTO game."user" (id, role_id, email, username, password, status) VALUES (default, 1, 'admin', 'admin', '123', 'A');
 INSERT INTO game."user" (id, role_id, email, username, password, status) VALUES (default, 2, 'user1', 'user1', '123', 'A');
 
+INSERT INTO game.question (id, location_name, longitude, latitude, clue, status, image_data)
+VALUES (default, 'Eiffel', 58.84560000, 22.47080000, 'ohtlik', 'A', '');
+
