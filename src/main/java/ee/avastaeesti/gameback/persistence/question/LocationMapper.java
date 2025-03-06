@@ -1,6 +1,6 @@
 package ee.avastaeesti.gameback.persistence.question;
 
-import ee.avastaeesti.gameback.controller.location.dto.NewLocation;
+import ee.avastaeesti.gameback.controller.location.dto.LocationInfo;
 import ee.avastaeesti.gameback.status.Status;
 import ee.avastaeesti.gameback.util.BytesConverter;
 import org.mapstruct.*;
@@ -13,7 +13,7 @@ public interface LocationMapper {
     @Mapping(source = "clue", target = "clue")
     @Mapping(source = "imageData", target = "imageData", qualifiedByName = "toBytes")
     @Mapping(expression = "java(Status.ACTIVE.getCode())", target = "status")
-    Question toQuestion(NewLocation newLocation);
+    Question toQuestion(LocationInfo locationInfo);
 
     @Named("toBytes")
     static byte[] toBytes(String imageData) {

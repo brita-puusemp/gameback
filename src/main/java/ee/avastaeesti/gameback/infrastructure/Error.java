@@ -11,7 +11,8 @@ public enum Error {
     EMAIL_EXISTS("Sellise e-mailiga kasutaja on juba süsteemis olemas", 113),
     LOCATION_EXISTS("Sellise nimega asukoht on juba süsteemis olemas", 114),
 
-    PRIMARY_KEY_NOT_FOUND("Ei leidnud primary keyd: ", 888),
+    PRIMARY_KEY_NOT_FOUND("Ei leidnud primary keyd: ", 115),
+
     FOREIGN_KEY_NOT_FOUND("Ei leidnud foreign keyd: ", 999);
 
 
