@@ -1,6 +1,6 @@
 package ee.avastaeesti.gameback.persistence.favorite;
 
-import ee.avastaeesti.gameback.persistence.question.Question;
+import ee.avastaeesti.gameback.persistence.location.Location;
 import ee.avastaeesti.gameback.persistence.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -24,11 +24,11 @@ public class Favourite {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;
 
     @NotNull
-    @Column(name = "status", nullable = false)
-    private Integer status;
+    @Column(name = "status", nullable = false, length = Integer.MAX_VALUE)
+    private String status;
 
 }

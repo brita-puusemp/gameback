@@ -28,12 +28,12 @@ public class UserGame {
     private Game game;
 
     @NotNull
-    @Column(name = "total_questions", nullable = false)
-    private Integer totalQuestions;
+    @Column(name = "total_locations", nullable = false)
+    private Integer totalLocations;
 
     @NotNull
-    @Column(name = "questions_answered", nullable = false)
-    private Integer questionsAnswered;
+    @Column(name = "locations_answered", nullable = false)
+    private Integer locationsAnswered;
 
     @NotNull
     @Column(name = "total_score", nullable = false)

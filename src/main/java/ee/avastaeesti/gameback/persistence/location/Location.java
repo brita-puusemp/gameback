@@ -1,4 +1,4 @@
-package ee.avastaeesti.gameback.persistence.question;
+package ee.avastaeesti.gameback.persistence.location;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Entity
-@Table(name = "question", schema = "game")
-public class Question {
+@Table(name = "location", schema = "game")
+public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -20,8 +20,8 @@ public class Question {
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "location_name", nullable = false)
-    private String locationName;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @NotNull
     @Column(name = "longitude", nullable = false, precision = 10, scale = 8)

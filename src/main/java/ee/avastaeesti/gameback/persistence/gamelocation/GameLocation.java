@@ -1,6 +1,6 @@
-package ee.avastaeesti.gameback.persistence.gamequestion;
+package ee.avastaeesti.gameback.persistence.gamelocation;
 
-import ee.avastaeesti.gameback.persistence.question.Question;
+import ee.avastaeesti.gameback.persistence.location.Location;
 import ee.avastaeesti.gameback.persistence.game.Game;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -10,8 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "game_question", schema = "game")
-public class GameQuestion {
+@Table(name = "game_location", schema = "game")
+public class GameLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -19,12 +19,12 @@ public class GameQuestion {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+    @JoinColumn(name = "game_id", nullable = false)
+    private Game game;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "game_id", nullable = false)
-    private Game game;
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;
 
 }

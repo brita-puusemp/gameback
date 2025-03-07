@@ -1,7 +1,7 @@
-package ee.avastaeesti.gameback.persistence.usergamequestion;
+package ee.avastaeesti.gameback.persistence.usergamelocation;
 
 import ee.avastaeesti.gameback.persistence.game.Game;
-import ee.avastaeesti.gameback.persistence.question.Question;
+import ee.avastaeesti.gameback.persistence.location.Location;
 import ee.avastaeesti.gameback.persistence.user.User;
 import ee.avastaeesti.gameback.persistence.usergame.UserGame;
 import jakarta.persistence.*;
@@ -14,8 +14,8 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "user_game_question", schema = "game")
-public class UserGameQuestion {
+@Table(name = "user_game_location", schema = "game")
+public class UserGameLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -28,8 +28,8 @@ public class UserGameQuestion {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;
 
     @NotNull
     @Column(name = "is_correct", nullable = false)

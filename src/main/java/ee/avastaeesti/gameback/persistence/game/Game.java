@@ -33,8 +33,8 @@ public class Game {
     private String description;
 
     @NotNull
-    @Column(name = "time_per_question", nullable = false)
-    private Integer timePerQuestion;
+    @Column(name = "time_per_location", nullable = false)
+    private Integer timePerLocation;
 
     @Size(max = 1)
     @NotNull

@@ -1,6 +1,6 @@
-package ee.avastaeesti.gameback.persistence.radomgamequestion;
+package ee.avastaeesti.gameback.persistence.randomgamelocation;
 
-import ee.avastaeesti.gameback.persistence.question.Question;
+import ee.avastaeesti.gameback.persistence.location.Location;
 import ee.avastaeesti.gameback.persistence.randomgame.RandomGame;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -12,8 +12,8 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "random_game_questions", schema = "game")
-public class RandomGameQuestion {
+@Table(name = "random_game_location", schema = "game")
+public class RandomGameLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -21,13 +21,13 @@ public class RandomGameQuestion {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "random_game_id", nullable = false)
-    private RandomGame randomGame;
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+    @JoinColumn(name = "random_game_id", nullable = false)
+    private RandomGame randomGame;
 
     @NotNull
     @Column(name = "is_correct", nullable = false)
