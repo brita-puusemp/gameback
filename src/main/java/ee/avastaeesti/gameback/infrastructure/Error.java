@@ -13,7 +13,7 @@ public enum Error {
 
     PRIMARY_KEY_NOT_FOUND("Ei leidnud primary keyd: ", 115),
 
-    FOREIGN_KEY_NOT_FOUND("Ei leidnud foreign keyd: ", 999);
+    FOREIGN_KEY_NOT_FOUND("Ei leidnud foreign keyd: ", 116);
 
 
     private final String message;

@@ -9,8 +9,6 @@ import ee.avastaeesti.gameback.validation.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 import static ee.avastaeesti.gameback.infrastructure.Error.LOCATION_EXISTS;
 
 @Service
@@ -20,10 +18,10 @@ public class LocationService {
     private final LocationRepository locationRepository;
     private final LocationMapper locationMapper;
 
-    public Optional<Question> updateLocatation(Integer questionId, LocationInfo locationInfo) {
-        Optional<Question> question = Optional.ofNullable(locationRepository.findLocationByQuestionId(questionId)
-                .orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("questionId", questionId)));
-        return question;
+    public Question updateLocation(Integer questionId, LocationInfo locationInfo) {
+        Question locationByQuestionId = locationRepository.findLocationByQuestionId(questionId);
+//                .orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("questionId", questionId));
+        return locationByQuestionId;
     }
 
     public void addNewLocation(LocationInfo locationInfo) {
@@ -35,5 +33,8 @@ public class LocationService {
         locationRepository.save(question);
     }
 
+//    public void deleteLocation(Integer questionId) {
+//
+//    }
 }
 

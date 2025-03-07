@@ -32,10 +32,19 @@ public class LocationController {
     @Operation(summary = "Asukoha info muutmine questionId abil")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorCode 888)", content = @Content(schema = @Schema(implementation = ApiError.class))),
+            @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorCode 115)", content = @Content(schema = @Schema(implementation = ApiError.class))),
     })
     public void updateLocation(@RequestParam Integer questionId, @RequestBody LocationInfo locationInfo) {
-        locationService.updateLocatation(questionId, locationInfo);
+        locationService.updateLocation(questionId, locationInfo);
 
     }
+
+//    @DeleteMapping("/location")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "OK"),
+//            @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorCode 115)", content = @Content(schema = @Schema(implementation = ApiError.class))),
+//    })
+//    public void deleteLocation(@RequestParam Integer questionId) {
+//        locationService.deleteLocation(questionId);
+//    }
 }
