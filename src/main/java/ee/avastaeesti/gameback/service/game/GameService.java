@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class NewGameService {
+public class GameService {
 
     private final LocationRepository locationRepository;
     private final LocationInfoMapper locationInfoMapper;
