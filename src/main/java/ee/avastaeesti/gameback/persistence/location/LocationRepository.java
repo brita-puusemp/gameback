@@ -8,4 +8,6 @@ public interface LocationRepository extends JpaRepository<Location, Integer> {
     @Query("select (count(l) > 0) from Location l where l.name = :locationName")
     boolean locationExistsBy(String locationName);
 
+
+
 }

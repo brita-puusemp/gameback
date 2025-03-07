@@ -1,6 +1,7 @@
 package ee.avastaeesti.gameback.service.location;
 
 import ee.avastaeesti.gameback.controller.location.dto.LocationDto;
+import ee.avastaeesti.gameback.controller.location.dto.LocationImage;
 import ee.avastaeesti.gameback.controller.location.dto.LocationInfo;
 import ee.avastaeesti.gameback.infrastructure.exception.ForbiddenException;
 import ee.avastaeesti.gameback.persistence.location.Location;
@@ -21,6 +22,7 @@ public class LocationService {
     private final LocationRepository locationRepository;
     private final LocationMapper locationMapper;
 
+
     public void updateLocation(Integer locationId, LocationDto locationDto) {
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("locationId", locationId));
@@ -33,6 +35,12 @@ public class LocationService {
         List<Location> locations = locationRepository.findAll();
         List<LocationInfo> locationDtos = locationMapper.toLocationInfos(locations);
         return locationDtos;
+    }
+
+    public LocationImage getLocationPreview(Integer locationId) {
+        Location location = locationRepository.findById(locationId).orElseThrow();
+        LocationImage locationImage = locationMapper.toLocationImage(location);
+        return locationImage;
     }
 
     public void addLocation(LocationDto locationDto) {
