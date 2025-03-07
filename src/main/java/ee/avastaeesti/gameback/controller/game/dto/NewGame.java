@@ -23,5 +23,5 @@ public class NewGame implements Serializable {
     @Size(max = 1000)
     private String description;
     @NotNull
-    private Integer timePerQuestion;
+    private Integer timePerLocation;
 }

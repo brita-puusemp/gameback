@@ -9,7 +9,7 @@ public interface GameMapper {
 
     @Mapping(source = "gameName", target = "name")
     @Mapping(source = "description", target = "description")
-    @Mapping(source = "timePerQuestion", target = "timePerQuestion")
+    @Mapping(source = "timePerLocation", target = "timePerLocation")
     @Mapping(expression = "java(Status.ACTIVE.getCode())", target = "status")
     Game toGame(NewGame newGame);
 
