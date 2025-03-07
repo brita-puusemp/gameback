@@ -46,8 +46,15 @@ public class LocationController {
         return ResponseEntity.ok(locationPreview);
     }
 
+    @GetMapping("/location")
+    @Operation(summary = "Asukoha info äratoomine locationId abil")
+    public LocationDto getLocation(@RequestParam Integer locationId) {
+        LocationDto location = locationService.getLocation(locationId);
+        return location;
+    }
+
     @PutMapping("/location")
-    @Operation(summary = "Asukoha info muutmine questionId abil")
+    @Operation(summary = "Asukoha info muutmine locationId abil")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorCode 115)", content = @Content(schema = @Schema(implementation = ApiError.class))),

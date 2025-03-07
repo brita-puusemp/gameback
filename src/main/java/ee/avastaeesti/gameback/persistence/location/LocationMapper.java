@@ -18,36 +18,38 @@ public interface LocationMapper {
     @Mapping(source = "clue", target = "clue")
     @Mapping(source = "imageData", target = "imageData", qualifiedByName = "toBytes")
     @Mapping(expression = "java(Status.ACTIVE.getCode())", target = "status")
-    Location toQuestion(LocationDto locationDto);
+    Location toLocation(LocationDto locationDto);
 
     @Named("toBytes")
     static byte[] toBytes(String imageData) {
         return BytesConverter.stringToBytesArray(imageData);
     }
 
-  /*  public static byte[] stringToBytesArray(String value) {return value.getBytes(StandardCharsets.UTF_8);}*/
-
     @Named("toString")
     static String toString(byte[] imageData) {
         return BytesConverter.bytesArrayToString(imageData);
     }
-/*
-    public static String bytesArrayToString(byte[] bytes) { return new String(bytes, StandardCharsets.UTF_8);
-    }*/
-
-
 
     @Mapping(source = "id", target = "locationId")
     @Mapping(source = "name", target = "locationName")
     LocationInfo toLocationInfo(Location location);
 
-
     List<LocationInfo> toLocationInfos(List<Location> locations);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "locationName", target = "name")
+    @Mapping(source = "longitude", target = "longitude")
+    @Mapping(source = "latitude", target = "latitude")
+    @Mapping(source = "clue", target = "clue")
     @Mapping(source = "imageData", target = "imageData", qualifiedByName = "toBytes")
     Location updateLocation(LocationDto locationDto, @MappingTarget Location location);
+
+    @Mapping(source = "name", target = "locationName")
+    @Mapping(source = "longitude", target = "longitude")
+    @Mapping(source = "latitude", target = "latitude")
+    @Mapping(source = "clue", target = "clue")
+    @Mapping(source = "imageData", target = "imageData", qualifiedByName = "toString")
+    LocationDto toLocationDto(Location locationForEdit);
 
     @Mapping(source="id", target="locationId")
     @Mapping(source = "name", target="locationName")
