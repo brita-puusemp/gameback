@@ -8,9 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-/**
- * DTO for {@link ee.avastaeesti.gameback.persistence.question.Question}
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
