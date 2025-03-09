@@ -63,8 +63,7 @@ public class LocationController {
         locationService.updateLocation(locationId, locationDto);
     }
 
-//    todo: URLi asukoht TBD(adminHomeViewle tuleb prügikastinupp, aga fronti pole veel)
-    @DeleteMapping("/location")
+    @DeleteMapping("/home-admin")
     @Operation(summary = "Asukoha eemaldamine nimekirjast, andmebaasis muudetakse status A=>D")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
