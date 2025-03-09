@@ -63,12 +63,16 @@ public class LocationController {
         locationService.updateLocation(locationId, locationDto);
     }
 
-//    @DeleteMapping("/location")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "OK"),
-//            @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorCode 115)", content = @Content(schema = @Schema(implementation = ApiError.class))),
-//    })
-//    public void deleteLocation(@RequestParam Integer questionId) {
-//        locationService.deleteLocation(questionId);
-//    }
+//    todo: URLi asukoht TBD(adminHomeViewle tuleb prügikastinupp, aga fronti pole veel)
+    @DeleteMapping("/location")
+    @Operation(summary = "Asukoha eemaldamine nimekirjast, andmebaasis muudetakse status A=>D")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorcode 115)", content = @Content(schema = @Schema(implementation = ApiError.class))),
+    })
+    public void removeLocation(@RequestParam Integer locationId) {
+        locationService.removeLocation(locationId);
+
+    }
+
 }
