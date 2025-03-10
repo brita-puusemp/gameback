@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static ee.avastaeesti.gameback.infrastructure.Error.LOCATION_EXISTS;
+import static ee.avastaeesti.gameback.status.Status.DELETED;
 
 @Service
 @RequiredArgsConstructor
@@ -56,4 +57,10 @@ public class LocationService {
         return locationImage;
     }
 
+    public void removeLocation(Integer locationId) {
+        Location location = locationRepository.findById(locationId)
+                .orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("locationId", locationId));
+        location.setStatus(DELETED.getCode());
+        locationRepository.save(location);
+    }
 }
