@@ -13,7 +13,10 @@ public enum Error {
 
     PRIMARY_KEY_NOT_FOUND("Ei leidnud primary keyd: ", 115),
 
-    FOREIGN_KEY_NOT_FOUND("Ei leidnud foreign keyd: ", 116);
+    FOREIGN_KEY_NOT_FOUND("Ei leidnud foreign keyd: ", 116),
+
+    USER_SCORE_NOT_FOUND("Ei leidnud userScore'i", 117),
+    TOP_SCORE_NOT_FOUND("Ei leidnud topScore'i", 118);
 
 
     private final String message;
