@@ -46,13 +46,14 @@ public class LocationService {
     }
 
     public LocationDto getLocation(Integer locationId) {
-        Location locationForEdit = locationRepository.findById(locationId).orElseThrow();
+        Location locationForEdit = locationRepository.findById(locationId)
+                .orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("locationId", locationId));
         LocationDto locationFilled = locationMapper.toLocationDto(locationForEdit);
         return locationFilled;
     }
 
     public LocationImage getLocationPreview(Integer locationId) {
-        Location location = locationRepository.findById(locationId).orElseThrow();
+        Location location = locationRepository.findById(locationId).orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("locationId", locationId));
         LocationImage locationImage = locationMapper.toLocationImage(location);
         return locationImage;
     }

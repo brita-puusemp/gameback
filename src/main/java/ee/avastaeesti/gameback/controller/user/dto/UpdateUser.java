@@ -14,9 +14,14 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto implements Serializable {
-    private Integer id;
+public class UpdateUser implements Serializable {
+    @NotNull
+    @Size(max = 255)
+    private String email;
     @NotNull
     @Size(max = 20)
     private String username;
+    @NotNull
+    @Size(max = 20)
+    private String password;
 }

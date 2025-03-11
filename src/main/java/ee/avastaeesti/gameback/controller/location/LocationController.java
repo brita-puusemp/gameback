@@ -71,7 +71,6 @@ public class LocationController {
     })
     public void removeLocation(@RequestParam Integer locationId) {
         locationService.removeLocation(locationId);
-
     }
 
 }
