@@ -65,9 +65,10 @@ CREATE TABLE random_game (
 -- Table: random_game_location
 CREATE TABLE random_game_location (
                                       id serial  NOT NULL,
-                                      location_id int  NOT NULL,
                                       random_game_id int  NOT NULL,
+                                      location_id int  NOT NULL,
                                       is_correct boolean  NOT NULL,
+                                      state varchar(2)  NOT NULL,
                                       time_start timestamp  NULL,
                                       time_end timestamp  NULL,
                                       CONSTRAINT random_game_location_pk PRIMARY KEY (id)

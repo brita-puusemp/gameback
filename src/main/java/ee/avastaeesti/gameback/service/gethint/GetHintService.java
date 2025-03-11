@@ -12,8 +12,8 @@ public class GetHintService {
         this.locationRepository = locationRepository;
     }
 
-    public String getLocationHint(int questionId) {
-        String clue = locationRepository.findClueByQuestionId(questionId);
-        return clue != null ? clue : "No hint found for question ID: " + questionId; //change to orelsethrow?
+    public String getLocationHint(int locationId) {
+        String clue = locationRepository.findClueByLocationId(locationId);
+        return clue != null ? clue : "No hint found for location ID: " + locationId; //change to orelsethrow?
     }
 }
