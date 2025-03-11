@@ -62,16 +62,16 @@ public class GameService {
     }
 
     public ArrayList<LeaderBoardDto> getGames() {
-        List<LeaderBoard> allGames = leaderBoardRepository.findAll();
+        List<Game> allGames = gameRepository.findAll();
         ArrayList<LeaderBoardDto> results = new ArrayList<>();
 
-        for (LeaderBoard leaderBoard : allGames) {
+        for (Game game : allGames) {
 /*            LeaderBoard userScore = leaderBoardRepository.findUserScoreBy(leaderBoard.getGame().getId()).orElseThrow(() -> new ForbiddenException(USER_SCORE_NOT_FOUND.getMessage(), USER_SCORE_NOT_FOUND.getErrorCode()));
             Integer totalUserScore = userScore.getTotalScore();*/
-            LeaderBoard topScore = leaderBoardRepository.findTopScoreBy(leaderBoard.getGame().getId()).orElseThrow(() -> new ForbiddenException(TOP_SCORE_NOT_FOUND.getMessage(), TOP_SCORE_NOT_FOUND.getErrorCode()));
+            LeaderBoard topScore = leaderBoardRepository.findTopScoreBy(game.getId()).orElseThrow(() -> new ForbiddenException(TOP_SCORE_NOT_FOUND.getMessage(), TOP_SCORE_NOT_FOUND.getErrorCode()));
             Integer totalTopScore = topScore.getTotalScore();
 
-            results.add(new LeaderBoardDto(leaderBoard.getGame().getId(), leaderBoard.getGame().getName(), leaderBoard.getGame().getDescription(), totalTopScore));
+            results.add(new LeaderBoardDto(game.getId(), game.getName() , game.getDescription(), totalTopScore));
         }
 
         return results;
