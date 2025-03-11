@@ -1,7 +1,7 @@
 package ee.avastaeesti.gameback.service.user;
 
-import ee.avastaeesti.gameback.controller.user.dto.UserDto;
 import ee.avastaeesti.gameback.controller.user.dto.NewUser;
+import ee.avastaeesti.gameback.controller.user.dto.UpdateUser;
 import ee.avastaeesti.gameback.infrastructure.exception.ForbiddenException;
 import ee.avastaeesti.gameback.persistence.role.Role;
 import ee.avastaeesti.gameback.persistence.role.RoleRepository;
@@ -18,7 +18,6 @@ import static ee.avastaeesti.gameback.infrastructure.Error.USERNAME_EXISTS;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -38,10 +37,20 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public UserDto findUserById(Integer userId) {
-        User userForEdit = userRepository.findById(userId).orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("UserId", userId));
-        UserDto updatedUser = userMapper.toDto(userForEdit);
-        return updatedUser;
+    public UpdateUser findUserById(Integer userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("UserId", userId));
+        UpdateUser userForEdit = userMapper.toUpdateUserDto(user);
+        return userForEdit;
+
     }
 
+    public User updateUserProfile(Integer userId, UpdateUser updateUser) {
+        User userForEdit = userRepository.findById(userId).orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("UserId", userId));
+        User updatedUser = userMapper.updateUserInfo(updateUser, userForEdit);
+        return updatedUser;
+    }
 }
+
+
+
+

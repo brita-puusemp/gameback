@@ -1,7 +1,7 @@
 package ee.avastaeesti.gameback.controller.user;
 
 import ee.avastaeesti.gameback.controller.user.dto.NewUser;
-import ee.avastaeesti.gameback.controller.user.dto.UserDto;
+import ee.avastaeesti.gameback.controller.user.dto.UpdateUser;
 import ee.avastaeesti.gameback.infrastructure.error.ApiError;
 import ee.avastaeesti.gameback.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,14 +32,14 @@ public class UserController {
     }
 
     @GetMapping("/user-profile")
-    @Operation(summary = "Kuvab kasutaja andmeid UserId abil")
+    @Operation(summary = "toob ära kasutaja andmed UserId abil")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorCode 115)", content = @Content(schema = @Schema(implementation = ApiError.class))),
     })
-    public UserDto getUser(@RequestParam Integer userId) {
-        UserDto userById = userService.findUserById(userId);
-        return userById;
+    public UpdateUser getUser(@RequestParam Integer userId) {
+        UpdateUser updateUser = userService.findUserById(userId);
+        return updateUser;
     }
 
     @PutMapping("/user-profile-edit")
@@ -48,8 +48,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorCode 115)", content = @Content(schema = @Schema(implementation = ApiError.class))),
     })
-//    todo: siin tuleks nagu userDto ju mängu ka, aga viskab viga ja ei viska servisiesse meetodit
-    public void updateUserProfile(@RequestParam Integer UserId) {
-        userService.findUserById(UserId);
+    public void updateUserProfile(@RequestParam Integer userId, @RequestBody UpdateUser updateUser) {
+        userService.updateUserProfile(userId, updateUser);
     }
 }

@@ -8,7 +8,6 @@ import ee.avastaeesti.gameback.status.Status;
 import ee.avastaeesti.gameback.util.BytesConverter;
 import org.mapstruct.*;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, imports = {Status.class})
@@ -20,7 +19,6 @@ public interface LocationMapper {
     @Mapping(source = "imageData", target = "imageData", qualifiedByName = "toBytes")
     @Mapping(expression = "java(Status.ACTIVE.getCode())", target = "status")
     Location toLocation(LocationDto locationDto);
-
 
     @Mapping(source = "id", target = "locationId")
     @Mapping(source = "name", target = "locationName")
@@ -36,9 +34,9 @@ public interface LocationMapper {
     @Mapping(source = "imageData", target = "imageData", qualifiedByName = "toBytes")
     Location updateLocation(LocationDto locationDto, @MappingTarget Location location);
 
-    @Mapping(source="id", target="locationId")
-    @Mapping(source = "name", target="locationName")
-    @Mapping(source = "imageData", target="imageData", qualifiedByName = "toString")
+    @Mapping(source = "id", target = "locationId")
+    @Mapping(source = "name", target = "locationName")
+    @Mapping(source = "imageData", target = "imageData", qualifiedByName = "toString")
     LocationImage toLocationImage(Location location);
 
     @Mapping(source = "name", target = "locationName")
@@ -50,7 +48,6 @@ public interface LocationMapper {
 
     @InheritConfiguration(name = "toLocationDto")
     NextRandomLocation toNextRandomLocation(Location location);
-
 
     @Named("toBytes")
     static byte[] toBytes(String imageData) {
