@@ -22,16 +22,6 @@ public class LocationController {
 
     private final LocationService locationService;
 
-    @PostMapping("/location")
-    @Operation(summary = "Uue asukoha lisamine.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "403", description = "Sellise nimega asukoht on juba süsteemis olemas", content = @Content(schema = @Schema(implementation = ApiError.class))),
-    })
-    public void addLocation(@RequestBody LocationDto locationDto) {
-        locationService.addLocation(locationDto);
-    }
-
     @GetMapping("/locations")
     @Operation(summary = "Toob asukohtade nimed ja id-d listina (nt: ripploendi jaoks)")
     public List<LocationInfo> getLocations() {
@@ -61,6 +51,16 @@ public class LocationController {
     })
     public void updateLocation(@RequestParam Integer locationId, @RequestBody LocationDto locationDto) {
         locationService.updateLocation(locationId, locationDto);
+    }
+
+    @PostMapping("/location")
+    @Operation(summary = "Uue asukoha lisamine.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "403", description = "Sellise nimega asukoht on juba süsteemis olemas", content = @Content(schema = @Schema(implementation = ApiError.class))),
+    })
+    public void addLocation(@RequestBody LocationDto locationDto) {
+        locationService.addLocation(locationDto);
     }
 
     @DeleteMapping("/home-admin")

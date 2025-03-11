@@ -1,12 +1,10 @@
 package ee.avastaeesti.gameback.persistence.user;
 
 import ee.avastaeesti.gameback.controller.login.dto.LoginResponse;
+import ee.avastaeesti.gameback.controller.user.dto.UserDto;
 import ee.avastaeesti.gameback.controller.user.dto.NewUser;
 import ee.avastaeesti.gameback.status.Status;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, imports = {Status.class})
 public interface UserMapper {
@@ -19,5 +17,9 @@ public interface UserMapper {
     @Mapping(source = "username", target = "username")
     @Mapping(expression = "java(Status.ACTIVE.getCode())", target = "status")
     User toUser(NewUser newUser);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    User partialUpdate(UserDto userDto, @MappingTarget User user);
+    UserDto toDto(User user);
 
 }

@@ -16,7 +16,8 @@ public enum Error {
     FOREIGN_KEY_NOT_FOUND("Ei leidnud foreign keyd: ", 116),
 
     USER_SCORE_NOT_FOUND("Ei leidnud userScore'i", 117),
-    TOP_SCORE_NOT_FOUND("Ei leidnud topScore'i", 118);
+    TOP_SCORE_NOT_FOUND("Ei leidnud topScore'i", 118),
+    NO_RANDOM_LOCATION_FOUND("Ei leidnud ühtegi järgmist juhuslikku asukohta", 119);
 
 
     private final String message;

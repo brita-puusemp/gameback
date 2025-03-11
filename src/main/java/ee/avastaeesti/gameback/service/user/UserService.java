@@ -1,5 +1,6 @@
 package ee.avastaeesti.gameback.service.user;
 
+import ee.avastaeesti.gameback.controller.user.dto.UserDto;
 import ee.avastaeesti.gameback.controller.user.dto.NewUser;
 import ee.avastaeesti.gameback.infrastructure.exception.ForbiddenException;
 import ee.avastaeesti.gameback.persistence.role.Role;
@@ -7,6 +8,7 @@ import ee.avastaeesti.gameback.persistence.role.RoleRepository;
 import ee.avastaeesti.gameback.persistence.user.User;
 import ee.avastaeesti.gameback.persistence.user.UserMapper;
 import ee.avastaeesti.gameback.persistence.user.UserRepository;
+import ee.avastaeesti.gameback.validation.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,10 +32,16 @@ public class UserService {
         if (userRepository.existsByEmail(newUser.getEmail())) {
             throw new ForbiddenException(EMAIL_EXISTS.getMessage(), EMAIL_EXISTS.getErrorCode());
         }
-
         Role role = roleRepository.getReferenceById(2);
         User user = userMapper.toUser(newUser);
         user.setRole(role);
         userRepository.save(user);
     }
+
+    public UserDto findUserById(Integer userId) {
+        User userForEdit = userRepository.findById(userId).orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("UserId", userId));
+        UserDto updatedUser = userMapper.toDto(userForEdit);
+        return updatedUser;
+    }
+
 }
