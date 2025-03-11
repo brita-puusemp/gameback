@@ -7,6 +7,7 @@ import org.mapstruct.*;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface RandomGameLocationMapper {
 
+    @Mapping(source = "location.id", target = "locationId")
     @Mapping(source = "location.name", target = "locationName")
     @Mapping(source = "location.longitude", target = "longitude")
     @Mapping(source = "location.latitude", target = "latitude")

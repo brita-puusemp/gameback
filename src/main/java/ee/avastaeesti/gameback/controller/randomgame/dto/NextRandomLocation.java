@@ -13,6 +13,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NextRandomLocation extends LocationDto {
+    private Integer locationId;
     private Boolean isGameComplete;
     private Instant timeStart;
 }

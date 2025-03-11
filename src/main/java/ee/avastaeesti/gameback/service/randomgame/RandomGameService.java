@@ -1,6 +1,7 @@
 package ee.avastaeesti.gameback.service.randomgame;
 
 import ee.avastaeesti.gameback.controller.randomgame.dto.NextRandomLocation;
+import ee.avastaeesti.gameback.controller.randomgame.dto.UserAnswer;
 import ee.avastaeesti.gameback.infrastructure.Error;
 import ee.avastaeesti.gameback.infrastructure.exception.DataNotFoundException;
 import ee.avastaeesti.gameback.persistence.location.Location;
@@ -105,5 +106,9 @@ public class RandomGameService {
         randomGameLocationRepository.save(nextLocationPending);
 
         return nextRandomLocation;
+    }
+
+    public void getLocationResult(UserAnswer userAnswer) {
+
     }
 }
