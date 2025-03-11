@@ -18,19 +18,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/user")
-    @Operation(summary = "Uue kasutaja loomine")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "403", description = "Kasutaja loomine ebaõnnestus: "
-                    + "Sellise nimega kasutaja on juba olemas (errorCode 112) või "
-                    + "sellise e-mailiga kasutaja on juba süsteemis olemas (errorCode 113)",
-                    content = @Content(schema = @Schema(implementation = ApiError.class))),
-    })
-    public void addNewUser(@RequestBody NewUser newUser) {
-        userService.addNewUser(newUser);
-    }
-
     @GetMapping("/user-profile")
     @Operation(summary = "toob ära kasutaja andmed UserId abil")
     @ApiResponses(value = {
@@ -50,5 +37,23 @@ public class UserController {
     })
     public void updateUserProfile(@RequestParam Integer userId, @RequestBody UpdateUser updateUser) {
         userService.updateUserProfile(userId, updateUser);
+    }
+
+    @PostMapping("/user")
+    @Operation(summary = "Uue kasutaja loomine")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "403", description = "Kasutaja loomine ebaõnnestus: "
+                    + "Sellise nimega kasutaja on juba olemas (errorCode 112) või "
+                    + "sellise e-mailiga kasutaja on juba süsteemis olemas (errorCode 113)",
+                    content = @Content(schema = @Schema(implementation = ApiError.class))),
+    })
+    public void addNewUser(@RequestBody NewUser newUser) {
+        userService.addNewUser(newUser);
+    }
+
+    @DeleteMapping("/user-delete")
+    public void removeUser(@RequestParam Integer userId){
+        userService.removeUser(userId);
     }
 }

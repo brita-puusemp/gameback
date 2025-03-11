@@ -8,12 +8,14 @@ import ee.avastaeesti.gameback.persistence.role.RoleRepository;
 import ee.avastaeesti.gameback.persistence.user.User;
 import ee.avastaeesti.gameback.persistence.user.UserMapper;
 import ee.avastaeesti.gameback.persistence.user.UserRepository;
+import ee.avastaeesti.gameback.status.Status;
 import ee.avastaeesti.gameback.validation.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static ee.avastaeesti.gameback.infrastructure.Error.EMAIL_EXISTS;
 import static ee.avastaeesti.gameback.infrastructure.Error.USERNAME_EXISTS;
+import static ee.avastaeesti.gameback.status.Status.DELETED;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +50,12 @@ public class UserService {
         User userForEdit = userRepository.findById(userId).orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("UserId", userId));
         User updatedUser = userMapper.updateUserInfo(updateUser, userForEdit);
         return updatedUser;
+    }
+
+    public void removeUser(Integer userId) {
+        User userToRemove = userRepository.findById(userId).orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("UserId", userId));
+        userToRemove.setStatus(DELETED.getCode());
+        userRepository.save(userToRemove);
     }
 }
 
