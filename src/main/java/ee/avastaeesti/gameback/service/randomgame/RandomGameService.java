@@ -1,6 +1,7 @@
 package ee.avastaeesti.gameback.service.randomgame;
 
 import ee.avastaeesti.gameback.controller.randomgame.dto.NextRandomLocation;
+import ee.avastaeesti.gameback.controller.randomgame.dto.RandomLocationAnswerResult;
 import ee.avastaeesti.gameback.controller.randomgame.dto.UserAnswer;
 import ee.avastaeesti.gameback.infrastructure.Error;
 import ee.avastaeesti.gameback.infrastructure.exception.DataNotFoundException;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +110,68 @@ public class RandomGameService {
         return nextRandomLocation;
     }
 
-    public void getLocationResult(UserAnswer userAnswer) {
+
+    public RandomLocationAnswerResult getLocationResult(UserAnswer userAnswer) {
+        //Toon andmebaasist õiged location koordinaadid
+        Location answeredLocation = locationRepository.getById(userAnswer.getLocationId());
+        BigDecimal rightLongitude = answeredLocation.getLongitude();
+        BigDecimal rightLatitude = answeredLocation.getLatitude();
+
+        //Toon frondist kasutaja pandud koordinaadid
+        BigDecimal userLongitude = userAnswer.getClickedLocation().getLng();
+        BigDecimal userLatitude = userAnswer.getClickedLocation().getLat();
+
+        //Kauguse arvutamine (Haversine valem)
+        double distance = calculateDistance(rightLatitude.doubleValue(), rightLongitude.doubleValue(), userLatitude.doubleValue(), userLongitude.doubleValue());
+
+        //Lubatud eksimuse määramine
+        double allowedDistance = 10000; // meetrites
+
+        //Kui kaugus on lubatust väiksem siis vastus on õige
+        boolean answerIsCorrect = distance <= allowedDistance;
+
+        // Uuenda andmebaasi ja loo DTO
+        RandomGame randomGame = randomGameRepository.findById(userAnswer.getRandomGameId())
+                .orElseThrow(() -> new RuntimeException("Game not found"));
+        randomGame.setLocationsAnswered(randomGame.getLocationsAnswered() + 1);
+
+        if (randomGame.getLocationsAnswered() >= randomGame.getTotalLocations()) {
+            randomGame.setIsComplete(true);
+        }
+        // Salvesta uuendatud mängu andmed
+        randomGameRepository.save(randomGame);
+
+        // Loo ja tagasta DTO
+        RandomLocationAnswerResult result = new RandomLocationAnswerResult();
+        result.setLocationName(answeredLocation.getName());
+        result.setGameIsComplete(randomGame.getIsComplete());
+        result.setTotalQuestions(randomGame.getTotalLocations());
+        result.setQuestionsAnswered(randomGame.getLocationsAnswered());
+
+        if (answerIsCorrect) {
+            result.setLocationIsCorrect(true);
+        } else {
+            result.setLocationIsCorrect(false);
+        }
+
+        return result;
+    }
+    public double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+        final int R = 6371; // Maapinna raadius kilomeetrites
+
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c; // Kaugus kilomeetrites
+        return distance * 1000; // Tagastame meetrites
+    }
+
+
 
     }
-}
+
+
+

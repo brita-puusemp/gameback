@@ -1,13 +1,11 @@
 package ee.avastaeesti.gameback.controller.randomgame;
 
 import ee.avastaeesti.gameback.controller.randomgame.dto.NextRandomLocation;
+import ee.avastaeesti.gameback.controller.randomgame.dto.RandomLocationAnswerResult;
 import ee.avastaeesti.gameback.controller.randomgame.dto.UserAnswer;
 import ee.avastaeesti.gameback.service.randomgame.RandomGameService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,9 +23,9 @@ public class RandomGameController {
        return randomGameService.getNextRandomLocation(randomGameId);
     }
 
-    @GetMapping("/game/location/result")
-    public void getLocationResult(@RequestParam UserAnswer userAnswer) {
-        randomGameService.getLocationResult(userAnswer);
+    @PostMapping("/game/location/result")
+    public RandomLocationAnswerResult getLocationResult(@RequestBody UserAnswer userAnswer) {
+       return randomGameService.getLocationResult(userAnswer);
     }
 
 }
