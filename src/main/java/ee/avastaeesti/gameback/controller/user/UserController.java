@@ -1,7 +1,6 @@
 package ee.avastaeesti.gameback.controller.user;
 
-import ee.avastaeesti.gameback.controller.user.dto.NewUser;
-import ee.avastaeesti.gameback.controller.user.dto.UpdateUser;
+import ee.avastaeesti.gameback.controller.user.dto.UserDto;
 import ee.avastaeesti.gameback.infrastructure.error.ApiError;
 import ee.avastaeesti.gameback.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,26 +17,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/user-profile")
-    @Operation(summary = "toob ära kasutaja andmed UserId abil")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorCode 115)", content = @Content(schema = @Schema(implementation = ApiError.class))),
-    })
-    public UpdateUser getUser(@RequestParam Integer userId) {
-        UpdateUser updateUser = userService.findUserById(userId);
-        return updateUser;
-    }
-
-    @PutMapping("/user-profile-edit")
-    @Operation(summary = "Kasutaja info muutmine userId abil")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorCode 115)", content = @Content(schema = @Schema(implementation = ApiError.class))),
-    })
-    public void updateUserProfile(@RequestParam Integer userId, @RequestBody UpdateUser updateUser) {
-        userService.updateUserProfile(userId, updateUser);
-    }
 
     @PostMapping("/user")
     @Operation(summary = "Uue kasutaja loomine")
@@ -48,12 +27,33 @@ public class UserController {
                     + "sellise e-mailiga kasutaja on juba süsteemis olemas (errorCode 113)",
                     content = @Content(schema = @Schema(implementation = ApiError.class))),
     })
-    public void addNewUser(@RequestBody NewUser newUser) {
-        userService.addNewUser(newUser);
+    public void addNewUser(@RequestBody UserDto userDto) {
+        userService.addNewUser(userDto);
     }
 
-    @DeleteMapping("/user-delete")
-    public void removeUser(@RequestParam Integer userId){
+    @GetMapping("/user")
+    @Operation(summary = "toob ära kasutaja andmed UserId abil")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorCode 115)", content = @Content(schema = @Schema(implementation = ApiError.class))),
+    })
+    public UserDto getUser(@RequestParam Integer userId) {
+        UserDto userDto = userService.getUser(userId);
+        return userDto;
+    }
+
+    @PutMapping("/user")
+    @Operation(summary = "Kasutaja info muutmine userId abil")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorCode 115)", content = @Content(schema = @Schema(implementation = ApiError.class))),
+    })
+    public void updateUser(@RequestParam Integer userId, @RequestBody UserDto userDto) {
+        userService.updateUser(userId, userDto);
+    }
+
+    @DeleteMapping("/user")
+    public void removeUser(@RequestParam Integer userId) {
         userService.removeUser(userId);
     }
 }

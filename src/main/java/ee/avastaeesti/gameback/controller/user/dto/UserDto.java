@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateUser implements Serializable {
+public class UserDto implements Serializable {
     @NotNull
     @Size(max = 255)
     private String email;
