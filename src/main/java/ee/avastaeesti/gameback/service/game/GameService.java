@@ -1,9 +1,9 @@
 package ee.avastaeesti.gameback.service.game;
 
 import ee.avastaeesti.gameback.controller.game.dto.GameData;
-import ee.avastaeesti.gameback.controller.game.dto.LeaderBoardDto;
+import ee.avastaeesti.gameback.controller.game.dto.GameInfo;
 import ee.avastaeesti.gameback.controller.game.dto.NewGame;
-import ee.avastaeesti.gameback.infrastructure.exception.ForbiddenException;
+import ee.avastaeesti.gameback.controller.game.dto.UserGame;
 import ee.avastaeesti.gameback.persistence.game.Game;
 import ee.avastaeesti.gameback.persistence.game.GameMapper;
 import ee.avastaeesti.gameback.persistence.game.GameRepository;
@@ -15,14 +15,13 @@ import ee.avastaeesti.gameback.persistence.location.Location;
 import ee.avastaeesti.gameback.persistence.location.LocationRepository;
 import ee.avastaeesti.gameback.persistence.user.User;
 import ee.avastaeesti.gameback.persistence.user.UserRepository;
+import ee.avastaeesti.gameback.status.Status;
 import ee.avastaeesti.gameback.validation.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static ee.avastaeesti.gameback.infrastructure.Error.*;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +50,6 @@ public class GameService {
     }
 
     public Integer createGame(NewGame newGame) {
-//        @Mapping(source = "EI SAA MÄPPIDA", target = "user")
         User user = userRepository.findById(newGame.getUserId())
                 .orElseThrow(() -> ValidationService.throwForeignKeyNotFoundException("userId", newGame.getUserId()));
 
@@ -61,20 +59,30 @@ public class GameService {
         return game.getId();
     }
 
-    public ArrayList<LeaderBoardDto> getGames() {
-        List<Game> allGames = gameRepository.findAll();
-        ArrayList<LeaderBoardDto> results = new ArrayList<>();
-
-        for (Game game : allGames) {
-/*            LeaderBoard userScore = leaderBoardRepository.findUserScoreBy(leaderBoard.getGame().getId()).orElseThrow(() -> new ForbiddenException(USER_SCORE_NOT_FOUND.getMessage(), USER_SCORE_NOT_FOUND.getErrorCode()));
-            Integer totalUserScore = userScore.getTotalScore();*/
-            LeaderBoard topScore = leaderBoardRepository.findTopScoreBy(game.getId()).orElseThrow(() -> new ForbiddenException(TOP_SCORE_NOT_FOUND.getMessage(), TOP_SCORE_NOT_FOUND.getErrorCode()));
-            Integer totalTopScore = topScore.getTotalScore();
-
-            results.add(new LeaderBoardDto(game.getId(), game.getName() , game.getDescription(), totalTopScore));
-        }
-
-        return results;
-
+    public List<GameInfo> getAllGames() {
+        List<Game> games = gameRepository.findAll();
+        List<GameInfo> gameInfos = gameMapper.toGameInfos(games);
+        addTotalScoreAndUsername(gameInfos);
+        return gameInfos;
     }
+
+    private void addTotalScoreAndUsername(List<GameInfo> gameInfos) {
+        for (GameInfo gameInfo : gameInfos) {
+
+            Optional<LeaderBoard> optionalLeaderBoard = leaderBoardRepository.findTopScoreBy(gameInfo.getGameId());
+            if (optionalLeaderBoard.isPresent()) {
+                LeaderBoard leaderBoard = optionalLeaderBoard.get();
+                gameInfo.setTotalTopScore(leaderBoard.getTotalScore());
+                gameInfo.setUsername(leaderBoard.getUser().getUsername());
+            }
+
+        }
+    }
+
+    public List<UserGame> getUserGames(Integer userId) {
+        List<Game> games = gameRepository.findGamesBy(userId, Status.ACTIVE.getCode());
+        List<UserGame> userGames = gameMapper.toUserGames(games);
+        return userGames;
+    }
+
 }
