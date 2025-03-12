@@ -1,8 +1,7 @@
 package ee.avastaeesti.gameback.persistence.user;
 
 import ee.avastaeesti.gameback.controller.login.dto.LoginResponse;
-import ee.avastaeesti.gameback.controller.user.dto.NewUser;
-import ee.avastaeesti.gameback.controller.user.dto.UpdateUser;
+import ee.avastaeesti.gameback.controller.user.dto.UserDto;
 import ee.avastaeesti.gameback.status.Status;
 import org.mapstruct.*;
 
@@ -16,17 +15,17 @@ public interface UserMapper {
     @Mapping(source = "password", target = "password")
     @Mapping(source = "username", target = "username")
     @Mapping(expression = "java(Status.ACTIVE.getCode())", target = "status")
-    User toUser(NewUser newUser);
+    User toUser(UserDto newUser);
 
     @Mapping(source = "email", target = "email")
     @Mapping(source = "username", target = "username")
     @Mapping(source = "password", target = "password")
-    UpdateUser toUpdateUserDto(User user);
+    UserDto toUserDto(User user);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "email", target = "email")
     @Mapping(source = "username", target = "username")
     @Mapping(source = "password", target = "password")
-    User updateUserInfo(UpdateUser updateUser, @MappingTarget User user);
+    User updateUser(UserDto userDto, @MappingTarget User user);
 
 }

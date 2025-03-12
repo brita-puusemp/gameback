@@ -1,14 +1,15 @@
 package ee.avastaeesti.gameback.controller.game;
 
 import ee.avastaeesti.gameback.controller.game.dto.GameData;
-import ee.avastaeesti.gameback.controller.game.dto.LeaderBoardDto;
+import ee.avastaeesti.gameback.controller.game.dto.GameInfo;
 import ee.avastaeesti.gameback.controller.game.dto.NewGame;
+import ee.avastaeesti.gameback.controller.game.dto.UserGame;
 import ee.avastaeesti.gameback.service.game.GameService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,9 +31,15 @@ public class GameController {
     }
 
     @GetMapping("/games")
-    public ArrayList<LeaderBoardDto> getGames() {
-        ArrayList<LeaderBoardDto> games = gameService.getGames();
-        return games;
+    public List<GameInfo> getAllGames() {
+        List<GameInfo> allGames = gameService.getAllGames();
+        return allGames;
+    }
+
+    @GetMapping("/user-games")
+    public List<UserGame> getUserGames(@RequestParam Integer userId) {
+        List<UserGame> userGames = gameService.getUserGames(userId);
+        return userGames;
     }
 
 }
