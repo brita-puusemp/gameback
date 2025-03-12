@@ -104,6 +104,9 @@ public class RandomGameService {
         nextLocationPending.setState(GameState.NEXT_LOCATION.getCode());
         randomGameLocationRepository.save(nextLocationPending);
 
+        //Kui NL puudub, otsi viimane asukoht, mille staate on AP
+
+
         // Tagasta järgmise asukoha andmed
         NextRandomLocation nextRandomLocation = locationMapper.toNextRandomLocation(randomGameLocation.getLocation());
         nextRandomLocation.setIsGameComplete(randomGame.getIsComplete());
@@ -137,7 +140,7 @@ public class RandomGameService {
                 .orElseThrow(() -> new RuntimeException("Game not found"));
         randomGame.setLocationsAnswered(randomGame.getLocationsAnswered() + 1);
 
-        if (randomGame.getLocationsAnswered() >= randomGame.getTotalLocations()) {
+        if (randomGame.getLocationsAnswered() +1 >= randomGame.getTotalLocations()) {
             randomGame.setIsComplete(true);
         }
         // Salvesta uuendatud mängu andmed
