@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocationDto implements Serializable {
+    private Integer locationId;
     @NotNull
     @Size(max = 255)
     private String locationName;
