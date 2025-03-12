@@ -39,6 +39,7 @@ public interface LocationMapper {
     @Mapping(source = "imageData", target = "imageData", qualifiedByName = "toString")
     LocationImage toLocationImage(Location location);
 
+    @Mapping(source = "id", target = "locationId")
     @Mapping(source = "name", target = "locationName")
     @Mapping(source = "longitude", target = "longitude")
     @Mapping(source = "latitude", target = "latitude")

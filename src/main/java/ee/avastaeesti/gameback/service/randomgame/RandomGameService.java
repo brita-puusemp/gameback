@@ -81,7 +81,7 @@ public class RandomGameService {
                 .orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("randomGameId", randomGameId));
 
 
-//    kindlusta, et reftrshi vajutades ei tule uut rida, kui eelmine locatio no vastamata(AP - on andmebaasis)
+        // Kindlusta, et refreshi vajutades ei tule uut rida, kui eelmine location on vastamata ehk tagasta fronti location, mille state on AP (answer pending)
         Optional<RandomGameLocation> answerPendingRandomGameLocation = randomGameLocationRepository.findRandomGameLocationBy(randomGameId, GameState.ANSWER_PENDING.getCode());
         if (answerPendingRandomGameLocation.isPresent()) {
             RandomGameLocation randomGameLocation = answerPendingRandomGameLocation.get();
@@ -90,22 +90,24 @@ public class RandomGameService {
             return nextRandomLocation;
         }
 
-//NL - > AP´ks (get teenuse sisend),
+        //Otsi järgmine location, mille state on NL (next location)
         RandomGameLocation randomGameLocation = randomGameLocationRepository.findRandomGameLocationBy(randomGameId, GameState.NEXT_LOCATION.getCode())
                 .orElseThrow(() -> new DataNotFoundException(Error.NO_RANDOM_LOCATION_FOUND.getMessage(), Error.NO_RANDOM_LOCATION_FOUND.getErrorCode()));
 
+        //Muuda leitud location state AP (answer pending)
         randomGameLocation.setState(GameState.ANSWER_PENDING.getCode());
         randomGameLocation.setTimeStart(Instant.now());
         randomGameLocationRepository.save(randomGameLocation);
 
-        NextRandomLocation nextRandomLocation = locationMapper.toNextRandomLocation(randomGameLocation.getLocation());
-        nextRandomLocation.setIsGameComplete(randomGame.getIsComplete());
-        nextRandomLocation.setTimeStart(randomGameLocation.getTimeStart());
-
-
+        // Otsi järgmine asukoht, mille state on LP (Location Pending), ja muuda selle state NL (next location)
         RandomGameLocation nextLocationPending = randomGameLocationRepository.findFirstByRandomGameIdAndStateOrderByIdAsc(randomGameId, GameState.LOCATION_PENDING.getCode()).orElseThrow();
         nextLocationPending.setState(GameState.NEXT_LOCATION.getCode());
         randomGameLocationRepository.save(nextLocationPending);
+
+        // Tagasta järgmise asukoha andmed
+        NextRandomLocation nextRandomLocation = locationMapper.toNextRandomLocation(randomGameLocation.getLocation());
+        nextRandomLocation.setIsGameComplete(randomGame.getIsComplete());
+        nextRandomLocation.setTimeStart(randomGameLocation.getTimeStart());
 
         return nextRandomLocation;
     }
@@ -130,7 +132,7 @@ public class RandomGameService {
         //Kui kaugus on lubatust väiksem siis vastus on õige
         boolean answerIsCorrect = distance <= allowedDistance;
 
-        // Uuenda andmebaasi ja loo DTO
+        // Uuenda andmebaasi tabelit random_game
         RandomGame randomGame = randomGameRepository.findById(userAnswer.getRandomGameId())
                 .orElseThrow(() -> new RuntimeException("Game not found"));
         randomGame.setLocationsAnswered(randomGame.getLocationsAnswered() + 1);
@@ -140,6 +142,15 @@ public class RandomGameService {
         }
         // Salvesta uuendatud mängu andmed
         randomGameRepository.save(randomGame);
+
+        //Uuenda andmebaasi tabelit random_game_location
+        RandomGameLocation randomGameLocation = randomGameLocationRepository.findRandomGameLocationBy(userAnswer.getLocationId())
+                .orElseThrow(() -> new RuntimeException("Location not found"));
+        randomGameLocation.setState(GameState.LOCATION_ANSWERED.getCode());
+
+        //Salvesta uuendatud andmed
+        randomGameLocationRepository.save(randomGameLocation);
+
 
         // Loo ja tagasta DTO
         RandomLocationAnswerResult result = new RandomLocationAnswerResult();
