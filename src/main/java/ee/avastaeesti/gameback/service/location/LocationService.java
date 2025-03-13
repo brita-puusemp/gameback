@@ -7,6 +7,7 @@ import ee.avastaeesti.gameback.infrastructure.exception.ForbiddenException;
 import ee.avastaeesti.gameback.persistence.location.Location;
 import ee.avastaeesti.gameback.persistence.location.LocationMapper;
 import ee.avastaeesti.gameback.persistence.location.LocationRepository;
+import ee.avastaeesti.gameback.status.Status;
 import ee.avastaeesti.gameback.validation.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static ee.avastaeesti.gameback.infrastructure.Error.LOCATION_EXISTS;
+import static ee.avastaeesti.gameback.status.Status.ACTIVE;
 import static ee.avastaeesti.gameback.status.Status.DELETED;
 
 @Service
@@ -33,7 +35,7 @@ public class LocationService {
     }
 
     public List<LocationInfo> getLocations() {
-        List<Location> locations = locationRepository.findAll();
+        List<Location> locations = locationRepository.findAllActiveLocationsBy(ACTIVE.getCode());
         List<LocationInfo> locationDtos = locationMapper.toLocationInfos(locations);
         return locationDtos;
     }
@@ -64,5 +66,6 @@ public class LocationService {
         location.setStatus(DELETED.getCode());
         locationRepository.save(location);
     }
+
 
 }

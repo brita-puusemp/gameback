@@ -17,4 +17,8 @@ public interface LocationRepository extends JpaRepository<Location, Integer> {
     @Query("SELECT l FROM Location l WHERE l.status = :status ORDER BY FUNCTION('RANDOM')")
     List<Location> findRandomLocationsBy(String status, Pageable pageable);
 
+    @Query("select l from Location l where l.status = :status order by l.name")
+    List<Location> findAllActiveLocationsBy(String status);
+
+
 }
