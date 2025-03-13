@@ -1,5 +1,6 @@
 package ee.avastaeesti.gameback.controller.randomgame;
 
+import ee.avastaeesti.gameback.controller.randomgame.dto.GameOverResults;
 import ee.avastaeesti.gameback.controller.randomgame.dto.NextRandomLocation;
 import ee.avastaeesti.gameback.controller.randomgame.dto.RandomLocationAnswerResult;
 import ee.avastaeesti.gameback.controller.randomgame.dto.UserAnswer;
@@ -26,6 +27,12 @@ public class RandomGameController {
     @PostMapping("/game/location/result")
     public RandomLocationAnswerResult getLocationResult(@RequestBody UserAnswer userAnswer) {
        return randomGameService.getLocationResult(userAnswer);
+    }
+
+    @GetMapping("/game/gameover")
+    public GameOverResults getGameOverResults(@RequestParam Integer randomGameId) {
+        GameOverResults gameOverResults = randomGameService.getGameOverResults(randomGameId);
+        return gameOverResults;
     }
 
 }

@@ -1,5 +1,6 @@
 package ee.avastaeesti.gameback.service.randomgame;
 
+import ee.avastaeesti.gameback.controller.randomgame.dto.GameOverResults;
 import ee.avastaeesti.gameback.controller.randomgame.dto.NextRandomLocation;
 import ee.avastaeesti.gameback.controller.randomgame.dto.RandomLocationAnswerResult;
 import ee.avastaeesti.gameback.controller.randomgame.dto.UserAnswer;
@@ -23,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -186,8 +188,27 @@ public class RandomGameService {
     }
 
 
+    public GameOverResults getGameOverResults(Integer randomGameId) {
+        List<RandomGameLocation> gameOverResults = randomGameLocationRepository.findGameBy(randomGameId);
+
+        int correctCount = 0;
+        int inCorrectCount = 0;
+        long totalTime = 0;
+
+        for (RandomGameLocation gameOverResult : gameOverResults) {
+            if (gameOverResult.getIsCorrect()) {
+                correctCount++;
+            } else {
+                inCorrectCount++;
+            }
+            Duration duration = Duration.between(gameOverResult.getTimeStart(), gameOverResult.getTimeEnd());
+            totalTime += duration.getSeconds();
+        }
+
+        return new GameOverResults(correctCount, inCorrectCount, totalTime);
 
     }
+}
 
 
 
