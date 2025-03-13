@@ -64,4 +64,5 @@ public class LocationService {
         location.setStatus(DELETED.getCode());
         locationRepository.save(location);
     }
+
 }

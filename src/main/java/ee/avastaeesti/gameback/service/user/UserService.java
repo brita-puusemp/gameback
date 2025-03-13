@@ -44,12 +44,12 @@ public class UserService {
         return userForEdit;
     }
 
-    public User updateUser(Integer userId, UserDto userDto) {
-        User userForEdit = userRepository.findById(userId).orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("UserId", userId));
-        User updatedUser = userMapper.updateUser(userDto, userForEdit);
-        return updatedUser;
+    public void updateUser(Integer userId, UserDto userDto) {
+        User userForEdit = userRepository.findById(userId)
+                .orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("UserId", userId));
+        userMapper.updateUser(userDto, userForEdit);
+        userRepository.save(userForEdit);
     }
-
 
     public void removeUser(Integer userId) {
         User userToRemove = userRepository.findById(userId).orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("UserId", userId));
