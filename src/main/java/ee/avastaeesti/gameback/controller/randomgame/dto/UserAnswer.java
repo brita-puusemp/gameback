@@ -11,5 +11,7 @@ public class UserAnswer {
     private Integer randomGameId;
     private Integer locationId;
     private ClickedLocation clickedLocation;
+    private Long startTimeMilliseconds;
+    private Long endTimeMilliseconds;
 
 }

@@ -96,7 +96,7 @@ public class RandomGameService {
 
         //Muuda leitud location state AP (answer pending)
         randomGameLocation.setState(GameState.ANSWER_PENDING.getCode());
-        randomGameLocation.setTimeStart(Instant.now());
+       /* randomGameLocation.setTimeStart(Instant.now());*/
         randomGameLocationRepository.save(randomGameLocation);
 
         // Otsi järgmine asukoht, mille state on LP (Location Pending), ja muuda selle state NL (next location)
@@ -110,7 +110,7 @@ public class RandomGameService {
         // Tagasta järgmise asukoha andmed
         NextRandomLocation nextRandomLocation = locationMapper.toNextRandomLocation(randomGameLocation.getLocation());
         nextRandomLocation.setIsGameComplete(randomGame.getIsComplete());
-        nextRandomLocation.setTimeStart(randomGameLocation.getTimeStart());
+      /*  nextRandomLocation.setTimeStart(randomGameLocation.getTimeStart());*/
 
         return nextRandomLocation;
     }
@@ -150,8 +150,10 @@ public class RandomGameService {
         RandomGameLocation randomGameLocation = randomGameLocationRepository.findRandomGameLocationBy(userAnswer.getLocationId())
                 .orElseThrow(() -> new RuntimeException("Location not found"));
         randomGameLocation.setState(GameState.LOCATION_ANSWERED.getCode());
+        randomGameLocation.setTimeStart(Instant.ofEpochMilli(userAnswer.getStartTimeMilliseconds()));
+        randomGameLocation.setTimeEnd(Instant.ofEpochMilli(userAnswer.getEndTimeMilliseconds()));
 
-        //Salvesta uuendatud andmed
+        //Salvesta uuendatud andmed (uus state)
         randomGameLocationRepository.save(randomGameLocation);
 
 
