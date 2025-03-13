@@ -20,6 +20,7 @@ public enum Error {
     NO_RANDOM_LOCATION_FOUND("Ei leidnud ühtegi järgmist juhuslikku asukohta", 119);
 
 
+
     private final String message;
     private final int errorCode;
 }
