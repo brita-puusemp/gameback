@@ -54,7 +54,8 @@ public class RandomGameService {
 
         randomGameRepository.save(randomGame);
 //lisame random gameile random locations
-        List<Location> randomLocations = locationRepository.findRandomLocationsBy(Status.ACTIVE.getCode(), PageRequest.of(0, 5));
+        List<Location> randomLocations = locationRepository
+                .findRandomLocationsBy(Status.ACTIVE.getCode(), PageRequest.of(0, 5));
         List<RandomGameLocation> randomGameLocations = new ArrayList<>();
 
         for (Location randomLocation : randomLocations) {
@@ -84,7 +85,8 @@ public class RandomGameService {
 
 
         // Kindlusta, et refreshi vajutades ei tule uut rida, kui eelmine location on vastamata ehk tagasta fronti location, mille state on AP (answer pending)
-        Optional<RandomGameLocation> answerPendingRandomGameLocation = randomGameLocationRepository.findRandomGameLocationBy(randomGameId, GameState.ANSWER_PENDING.getCode());
+        Optional<RandomGameLocation> answerPendingRandomGameLocation = randomGameLocationRepository
+                .findRandomGameLocationBy(randomGameId, GameState.ANSWER_PENDING.getCode());
         if (answerPendingRandomGameLocation.isPresent()) {
             RandomGameLocation randomGameLocation = answerPendingRandomGameLocation.get();
             NextRandomLocation nextRandomLocation = randomGameLocationMapper.toNextRandomLocation(randomGameLocation);
@@ -98,21 +100,22 @@ public class RandomGameService {
 
         //Muuda leitud location state AP (answer pending)
         randomGameLocation.setState(GameState.ANSWER_PENDING.getCode());
-       /* randomGameLocation.setTimeStart(Instant.now());*/
         randomGameLocationRepository.save(randomGameLocation);
 
-        // Otsi järgmine asukoht, mille state on LP (Location Pending), ja muuda selle state NL (next location)
-        RandomGameLocation nextLocationPending = randomGameLocationRepository.findFirstByRandomGameIdAndStateOrderByIdAsc(randomGameId, GameState.LOCATION_PENDING.getCode()).orElseThrow();
-        nextLocationPending.setState(GameState.NEXT_LOCATION.getCode());
-        randomGameLocationRepository.save(nextLocationPending);
+        //Otsi järgmine asukoht, mille state on LP (Location Pending), ja muuda selle state NL (next location)
+        //LP puudub kui hangitakse viimast locationi
 
-        //Kui NL puudub, otsi viimane asukoht, mille staate on AP
-
+        Optional<RandomGameLocation> locationPendingRandomGameLocation = randomGameLocationRepository
+                .findFirstByRandomGameIdAndStateOrderByIdAsc(randomGameId, GameState.LOCATION_PENDING.getCode());
+        if (locationPendingRandomGameLocation.isPresent()) {
+            RandomGameLocation nextLocationPending = locationPendingRandomGameLocation.get();
+            nextLocationPending.setState(GameState.NEXT_LOCATION.getCode());
+            randomGameLocationRepository.save(nextLocationPending);
+        }
 
         // Tagasta järgmise asukoha andmed
         NextRandomLocation nextRandomLocation = locationMapper.toNextRandomLocation(randomGameLocation.getLocation());
         nextRandomLocation.setIsGameComplete(randomGame.getIsComplete());
-      /*  nextRandomLocation.setTimeStart(randomGameLocation.getTimeStart());*/
 
         return nextRandomLocation;
     }
