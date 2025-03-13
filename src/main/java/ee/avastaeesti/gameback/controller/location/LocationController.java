@@ -73,4 +73,5 @@ public class LocationController {
         locationService.removeLocation(locationId);
     }
 
+
 }
