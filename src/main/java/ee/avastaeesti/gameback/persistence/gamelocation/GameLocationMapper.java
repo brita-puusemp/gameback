@@ -13,7 +13,6 @@ public interface GameLocationMapper {
     @Mapping(source = "location.imageData", target = "locationImage",qualifiedByName = "toString")
     GameLocationInfo toGameLocationInfo(GameLocation gameLocation);
 
-
    List <GameLocationInfo> toGameLocationInfos(List<GameLocation> gameLocations);
 
     @Named("toString")

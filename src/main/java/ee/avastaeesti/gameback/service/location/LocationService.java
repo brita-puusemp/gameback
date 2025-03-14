@@ -34,11 +34,19 @@ public class LocationService {
         locationRepository.save(location);
     }
 
+//    todo - see toimib, kontrolli veel üle, alumise saab siis kustutada.
     public List<LocationInfo> getLocations() {
         List<Location> locations = locationRepository.findAllActiveLocationsBy(ACTIVE.getCode());
         List<LocationInfo> locationDtos = locationMapper.toLocationInfos(locations);
         return locationDtos;
     }
+//või locationId kaasa ikka:
+//public List<LocationInfo> getLocations(Integer locationId) {
+//    List<Location> locations = locationRepository.findLocationsBy(locationId, ACTIVE.getCode());
+//    List<LocationInfo> locationDtos = locationMapper.toLocationInfos(locations);
+//    return locationDtos;
+//}
+
 
     public void updateLocation(Integer locationId, LocationDto locationDto) {
         Location location = locationRepository.findById(locationId)
@@ -53,12 +61,12 @@ public class LocationService {
         LocationDto locationFilled = locationMapper.toLocationDto(locationForEdit);
         return locationFilled;
     }
-
-    public LocationImage getLocationPreview(Integer locationId) {
-        Location location = locationRepository.findById(locationId).orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("locationId", locationId));
-        LocationImage locationImage = locationMapper.toLocationImage(location);
-        return locationImage;
-    }
+//    todo OK kustutada vist.
+//    public LocationImage getLocationPreview(Integer locationId) {
+//        Location location = locationRepository.findById(locationId).orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("locationId", locationId));
+//        LocationImage locationImage = locationMapper.toLocationImage(location);
+//        return locationImage;
+//    }
 
     public void removeLocation(Integer locationId) {
         Location location = locationRepository.findById(locationId)

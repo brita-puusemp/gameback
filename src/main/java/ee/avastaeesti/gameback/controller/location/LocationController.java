@@ -22,19 +22,21 @@ public class LocationController {
 
     private final LocationService locationService;
 
+//    todo kas list peab sisaldama ka locationId
     @GetMapping("/locations")
     @Operation(summary = "Toob asukohtade nimed ja id-d listina (nt: ripploendi jaoks)")
     public List<LocationInfo> getLocations() {
         List<LocationInfo> locations = locationService.getLocations();
         return locations;
     }
+//    todo OK kustutada vist. sh import.
+//    @GetMapping("/location-preview")
+//    @Operation(summary = "Toob asukohtade nimed ja pildi asukoha id põhjal")
+//    public ResponseEntity<LocationImage> getLocationPreview(@RequestParam Integer locationId) {
+//        LocationImage locationPreview = locationService.getLocationPreview(locationId);
+//        return ResponseEntity.ok(locationPreview);
+//    }
 
-    @GetMapping("/location-preview")
-    @Operation(summary = "Toob asukohtade nimed ja pildi asukoha id põhjal")
-    public ResponseEntity<LocationImage> getLocationPreview(@RequestParam Integer locationId) {
-        LocationImage locationPreview = locationService.getLocationPreview(locationId);
-        return ResponseEntity.ok(locationPreview);
-    }
 
     @GetMapping("/location")
     @Operation(summary = "Asukoha info äratoomine locationId abil")

@@ -34,10 +34,11 @@ public interface LocationMapper {
     @Mapping(source = "imageData", target = "imageData", qualifiedByName = "toBytes")
     Location updateLocation(LocationDto locationDto, @MappingTarget Location location);
 
-    @Mapping(source = "id", target = "locationId")
-    @Mapping(source = "name", target = "locationName")
-    @Mapping(source = "imageData", target = "imageData", qualifiedByName = "toString")
-    LocationImage toLocationImage(Location location);
+    //    todo OK kustutada vist.
+//    @Mapping(source = "id", target = "locationId")
+//    @Mapping(source = "name", target = "locationName")
+//    @Mapping(source = "imageData", target = "imageData", qualifiedByName = "toString")
+//    LocationImage toLocationImage(Location location);
 
     @Mapping(source = "id", target = "locationId")
     @Mapping(source = "name", target = "locationName")

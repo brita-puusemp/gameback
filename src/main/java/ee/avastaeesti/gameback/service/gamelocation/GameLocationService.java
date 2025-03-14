@@ -38,4 +38,8 @@ public class GameLocationService {
         List<GameLocationInfo> gameLocationInfos = gameLocationMapper.toGameLocationInfos(gameLocations);
         return gameLocationInfos;
     }
+
+    public void removeLocationFromGameBy(Integer gameLocationId) {
+        gameLocationRepository.deleteById(gameLocationId);
+    }
 }
