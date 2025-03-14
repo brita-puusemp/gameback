@@ -17,7 +17,6 @@ public interface RandomGameLocationMapper {
     @Mapping(source = "location.latitude", target = "latitude")
     @Mapping(source = "location.clue", target = "clue")
     @Mapping(source = "location.imageData", target = "imageData", qualifiedByName = "toString")
-    /*@Mapping(source = "timeStart", target = "timeStart", qualifiedByName = "timestampToMilliseconds")*/
     NextRandomLocation toNextRandomLocation(RandomGameLocation randomGameLocation);
 
     @Mapping(source = "startTimeMilliseconds", target = "timeStart", qualifiedByName = "millisecondsToInstant")

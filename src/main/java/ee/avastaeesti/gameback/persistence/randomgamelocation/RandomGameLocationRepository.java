@@ -21,8 +21,7 @@ public interface RandomGameLocationRepository extends JpaRepository<RandomGameLo
 
     boolean randomGameLocationExistsBy( Integer randomGameId, String state);
 
-    @Query("select r from RandomGameLocation r where r.location.id = :locationId")
-    Optional<RandomGameLocation> findRandomGameLocationBy(Integer locationId);
+
 
     @Query("select r from RandomGameLocation r where r.randomGame.id = :randomGameId order by r.id")
     List<RandomGameLocation> findGameBy(Integer randomGameId);

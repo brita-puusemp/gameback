@@ -6,6 +6,7 @@ import ee.avastaeesti.gameback.persistence.user.User;
 import ee.avastaeesti.gameback.persistence.usergame.UserGame;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,6 +35,11 @@ public class UserGameLocation {
     @NotNull
     @Column(name = "is_correct", nullable = false)
     private Boolean isCorrect = false;
+
+    @Size(max = 2)
+    @NotNull
+    @Column(name = "state", nullable = false, length = 2)
+    private String state;
 
     @Column(name = "time_start")
     private Instant timeStart;

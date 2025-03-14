@@ -14,6 +14,5 @@ import java.time.Instant;
 @NoArgsConstructor
 public class NextRandomLocation extends LocationDto {
     private Boolean isGameComplete;
-  /*  private Long timeStart;*/
 
 }

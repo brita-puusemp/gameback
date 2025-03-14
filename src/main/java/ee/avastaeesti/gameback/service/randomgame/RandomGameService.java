@@ -156,6 +156,11 @@ public class RandomGameService {
         randomGameLocation.setState(GameState.LOCATION_ANSWERED.getCode());
         randomGameLocation.setTimeStart(Instant.ofEpochMilli(userAnswer.getStartTimeMilliseconds()));
         randomGameLocation.setTimeEnd(Instant.ofEpochMilli(userAnswer.getEndTimeMilliseconds()));
+        if (answerIsCorrect) {
+            randomGameLocation.setIsCorrect(true);
+        } else {
+            randomGameLocation.setIsCorrect(false);
+        }
 
         //Salvesta uuendatud andmed (uus state)
         randomGameLocationRepository.save(randomGameLocation);
@@ -167,12 +172,13 @@ public class RandomGameService {
         result.setGameIsComplete(randomGame.getIsComplete());
         result.setTotalQuestions(randomGame.getTotalLocations());
         result.setQuestionsAnswered(randomGame.getLocationsAnswered());
-
+        result.setLocationIsCorrect(randomGameLocation.getIsCorrect());
+/*
         if (answerIsCorrect) {
             result.setLocationIsCorrect(true);
         } else {
             result.setLocationIsCorrect(false);
-        }
+        }*/
 
         return result;
     }

@@ -95,7 +95,7 @@ CREATE TABLE "user" (
 
 -- Table: user_game
 CREATE TABLE user_game (
-                           id int  NOT NULL,
+                           id serial  NOT NULL,
                            user_id int  NOT NULL,
                            game_id int  NOT NULL,
                            total_locations int  NOT NULL,
@@ -112,6 +112,7 @@ CREATE TABLE user_game_location (
                                     user_game_id int  NOT NULL,
                                     location_id int  NOT NULL,
                                     is_correct boolean  NOT NULL,
+                                    state varchar(2)  NOT NULL,
                                     time_start timestamp  NULL,
                                     time_end timestamp  NULL,
                                     game_id int  NOT NULL,
