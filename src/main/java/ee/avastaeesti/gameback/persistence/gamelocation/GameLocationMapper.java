@@ -10,14 +10,13 @@ import java.util.List;
 public interface GameLocationMapper {
     @Mapping(source = "id", target = "gameLocationId")
     @Mapping(source = "location.name", target = "locationName")
-    @Mapping(source = "location.imageData", target = "locationImage",qualifiedByName = "toString")
+    @Mapping(source = "location.imageData", target = "locationImage", qualifiedByName = "toString")
     GameLocationInfo toGameLocationInfo(GameLocation gameLocation);
 
-   List <GameLocationInfo> toGameLocationInfos(List<GameLocation> gameLocations);
+    List<GameLocationInfo> toGameLocationInfos(List<GameLocation> gameLocations);
 
     @Named("toString")
     static String toString(byte[] imageData) {
         return BytesConverter.bytesArrayToString(imageData);
     }
-
 }
