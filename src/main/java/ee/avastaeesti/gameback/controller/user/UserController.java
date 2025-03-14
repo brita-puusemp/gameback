@@ -17,7 +17,6 @@ public class UserController {
 
     private final UserService userService;
 
-
     @PostMapping("/user")
     @Operation(summary = "Uue kasutaja loomine")
     @ApiResponses(value = {
@@ -53,6 +52,7 @@ public class UserController {
     }
 
     @DeleteMapping("/user")
+    @Operation(summary = "Kasutaja info eemaldamine userId abil")
     public void removeUser(@RequestParam Integer userId) {
         userService.removeUser(userId);
     }

@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static ee.avastaeesti.gameback.status.Status.DELETED;
+
 @Service
 @RequiredArgsConstructor
 public class GameService {
@@ -85,4 +87,9 @@ public class GameService {
         return userGames;
     }
 
+    public void deleteUserGame(Integer gameId) {
+        Game gameToBeRemoved = gameRepository.findById(gameId).orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("gameId", gameId));
+        gameToBeRemoved.setStatus(DELETED.getCode());
+        gameRepository.save(gameToBeRemoved);
+    }
 }
