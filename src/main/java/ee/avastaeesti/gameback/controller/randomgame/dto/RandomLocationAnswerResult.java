@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RandomLocationAnswerResult {
+    private Integer locationId;
     private String locationName;
     private Boolean locationIsCorrect;
     private Boolean gameIsComplete;

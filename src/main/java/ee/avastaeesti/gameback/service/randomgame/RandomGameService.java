@@ -168,6 +168,8 @@ public class RandomGameService {
 
         // Loo ja tagasta DTO
         RandomLocationAnswerResult result = new RandomLocationAnswerResult();
+        //todo: locatioId peab jõudma resultViewsse
+        result.setLocationId(userAnswer.getLocationId());
         result.setLocationName(answeredLocation.getName());
         result.setGameIsComplete(randomGame.getIsComplete());
         result.setTotalQuestions(randomGame.getTotalLocations());
