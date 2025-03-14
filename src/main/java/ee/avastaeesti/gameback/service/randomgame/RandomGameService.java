@@ -152,8 +152,7 @@ public class RandomGameService {
         randomGameRepository.save(randomGame);
 
         //Uuenda andmebaasi tabelit random_game_location
-        RandomGameLocation randomGameLocation = randomGameLocationRepository.findRandomGameLocationBy(userAnswer.getLocationId())
-                .orElseThrow(() -> new RuntimeException("Location not found"));
+        RandomGameLocation randomGameLocation = randomGameLocationRepository.findAnsweredLocationBy(userAnswer.getRandomGameId(), userAnswer.getLocationId()).orElseThrow(() -> new RuntimeException("Location not found for randomGameId: " + userAnswer.getRandomGameId() + " and locationId: " + userAnswer.getLocationId()));
         randomGameLocation.setState(GameState.LOCATION_ANSWERED.getCode());
         randomGameLocation.setTimeStart(Instant.ofEpochMilli(userAnswer.getStartTimeMilliseconds()));
         randomGameLocation.setTimeEnd(Instant.ofEpochMilli(userAnswer.getEndTimeMilliseconds()));

@@ -27,5 +27,8 @@ public interface RandomGameLocationRepository extends JpaRepository<RandomGameLo
     @Query("select r from RandomGameLocation r where r.randomGame.id = :randomGameId order by r.id")
     List<RandomGameLocation> findGameBy(Integer randomGameId);
 
+    @Query("select r from RandomGameLocation r where r.randomGame.id = :randomGameId and r.location.id = :locationId")
+    Optional<RandomGameLocation> findAnsweredLocationBy(Integer randomGameId, Integer locationId);
+
 
 }
