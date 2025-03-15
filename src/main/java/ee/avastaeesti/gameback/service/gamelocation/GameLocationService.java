@@ -41,5 +41,9 @@ public class GameLocationService {
 
     public void removeLocationFromGameBy(Integer gameLocationId) {
         gameLocationRepository.deleteById(gameLocationId);
+//        todo - siin setStatus punane ja ei tööta niipidi. ülemine lahendus töötab-
+//        GameLocation gameLocation = gameLocationRepository.findById(gameLocationId).orElseThrow(() -> ValidationService.throwForeignKeyNotFoundException("gameLocationId", gameLocationId));
+//        gameLocation.setStatus(DELETED.getCode());
+//        gameLocationRepository.save(gameLocation);
     }
 }
