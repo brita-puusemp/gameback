@@ -104,6 +104,7 @@ public class UserCreatedGameService {
         UserGameLocation userGameNextLocation = userGameLocationRepository.findNextLocationBy(userGameId, GameState.NEXT_LOCATION.getCode())
                 .orElseThrow(() -> new DataNotFoundException(Error.NO_RANDOM_LOCATION_FOUND.getMessage(), Error.NO_RANDOM_LOCATION_FOUND.getErrorCode()));
 
+
         //Muuda leitud location state AP (answer pending)
         userGameNextLocation.setState(GameState.ANSWER_PENDING.getCode());
         userGameLocationRepository.save(userGameNextLocation);
