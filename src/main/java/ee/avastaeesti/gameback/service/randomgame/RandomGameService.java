@@ -34,7 +34,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RandomGameService {
 
-
     private final UserRepository userRepository;
     private final RandomGameRepository randomGameRepository;
     private final LocationRepository locationRepository;
@@ -45,7 +44,7 @@ public class RandomGameService {
     public Integer createNewRandomGame(Integer userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("userId", userId));
-//TODO Loob uue randmon game tabeli
+// Loob uue randmon game tabeli
         RandomGame randomGame = new RandomGame();
         randomGame.setUser(user);
         randomGame.setTotalLocations(5);
@@ -72,17 +71,14 @@ public class RandomGameService {
             }
             randomGameLocations.add(randomGameLocation);
         }
-
         randomGameLocationRepository.saveAll(randomGameLocations);
 //tagastame fronti random game gameId
         return randomGame.getId();
-
     }
 
     public NextRandomLocation getNextRandomLocation(Integer randomGameId) {
         RandomGame randomGame = randomGameRepository.findById(randomGameId)
                 .orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("randomGameId", randomGameId));
-
 
         // Kindlusta, et refreshi vajutades ei tule uut rida, kui eelmine location on vastamata ehk tagasta fronti location, mille state on AP (answer pending)
         Optional<RandomGameLocation> answerPendingRandomGameLocation = randomGameLocationRepository
@@ -120,7 +116,6 @@ public class RandomGameService {
         return nextRandomLocation;
     }
 
-
     public RandomLocationAnswerResult getLocationResult(UserAnswer userAnswer) {
         //Toon andmebaasist õiged location koordinaadid
         Location answeredLocation = locationRepository.getById(userAnswer.getLocationId());
@@ -145,7 +140,7 @@ public class RandomGameService {
                 .orElseThrow(() -> new RuntimeException("Game not found"));
         randomGame.setLocationsAnswered(randomGame.getLocationsAnswered() + 1);
 
-        if (randomGame.getLocationsAnswered() +1 >= randomGame.getTotalLocations()) {
+        if (randomGame.getLocationsAnswered() + 1 >= randomGame.getTotalLocations()) {
             randomGame.setIsComplete(true);
         }
         // Salvesta uuendatud mängu andmed
@@ -161,7 +156,6 @@ public class RandomGameService {
         //Salvesta uuendatud andmed (uus state)
         randomGameLocationRepository.save(randomGameLocation);
 
-
         // Loo ja tagasta DTO
         RandomLocationAnswerResult result = new RandomLocationAnswerResult();
         result.setLocationName(answeredLocation.getName());
@@ -174,9 +168,9 @@ public class RandomGameService {
         } else {
             result.setLocationIsCorrect(false);
         }
-
         return result;
     }
+
     public double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         final int R = 6371; // Maapinna raadius kilomeetrites
 
@@ -189,7 +183,6 @@ public class RandomGameService {
         double distance = R * c; // Kaugus kilomeetrites
         return distance * 1000; // Tagastame meetrites
     }
-
 
     public GameOverResults getGameOverResults(Integer randomGameId) {
         List<RandomGameLocation> gameOverResults = randomGameLocationRepository.findGameBy(randomGameId);
@@ -207,9 +200,7 @@ public class RandomGameService {
             Duration duration = Duration.between(gameOverResult.getTimeStart(), gameOverResult.getTimeEnd());
             totalTime += duration.getSeconds();
         }
-
         return new GameOverResults(correctCount, inCorrectCount, totalTime);
-
     }
 }
 

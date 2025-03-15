@@ -14,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FavoriteService {
 
-
     private final FavouriteRepository favouriteRepository;
 
     public List<UserFavourite> getUserFavourites(Integer userId) {
@@ -30,8 +29,6 @@ public class FavoriteService {
             indexCounter++;
             userFavourites.add(userFavourite);
         }
-
         return userFavourites;
     }
-
 }

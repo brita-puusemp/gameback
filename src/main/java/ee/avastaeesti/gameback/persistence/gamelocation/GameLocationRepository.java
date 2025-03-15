@@ -8,5 +8,4 @@ import java.util.List;
 public interface GameLocationRepository extends JpaRepository<GameLocation, Integer> {
     @Query("select g from GameLocation g where g.game.id = :gameId order by g.id")
     List<GameLocation> findGameLocationsBy(Integer gameId);
-
 }

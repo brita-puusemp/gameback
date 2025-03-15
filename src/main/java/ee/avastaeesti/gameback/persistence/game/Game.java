@@ -40,5 +40,4 @@ public class Game {
     @NotNull
     @Column(name = "status", nullable = false, length = 1)
     private String status;
-
 }

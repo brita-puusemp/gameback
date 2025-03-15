@@ -27,5 +27,4 @@ public interface UserMapper {
     @Mapping(source = "username", target = "username")
     @Mapping(source = "password", target = "password")
     User updateUser(UserDto userDto, @MappingTarget User user);
-
 }

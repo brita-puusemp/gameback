@@ -1,7 +1,7 @@
 package ee.avastaeesti.gameback.persistence.gamelocation;
 
-import ee.avastaeesti.gameback.persistence.location.Location;
 import ee.avastaeesti.gameback.persistence.game.Game;
+import ee.avastaeesti.gameback.persistence.location.Location;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -26,5 +26,4 @@ public class GameLocation {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "location_id", nullable = false)
     private Location location;
-
 }

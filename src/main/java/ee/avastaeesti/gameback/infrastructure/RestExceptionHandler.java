@@ -1,6 +1,5 @@
 package ee.avastaeesti.gameback.infrastructure;
 
-
 import ee.avastaeesti.gameback.infrastructure.error.ApiError;
 import ee.avastaeesti.gameback.infrastructure.exception.DataNotFoundException;
 import ee.avastaeesti.gameback.infrastructure.exception.ForbiddenException;
@@ -28,5 +27,4 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         apiError.setErrorCode(exception.getErrorCode());
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
-
 }

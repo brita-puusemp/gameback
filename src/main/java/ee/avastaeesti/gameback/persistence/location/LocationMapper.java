@@ -1,7 +1,6 @@
 package ee.avastaeesti.gameback.persistence.location;
 
 import ee.avastaeesti.gameback.controller.location.dto.LocationDto;
-import ee.avastaeesti.gameback.controller.location.dto.LocationImage;
 import ee.avastaeesti.gameback.controller.location.dto.LocationInfo;
 import ee.avastaeesti.gameback.controller.randomgame.dto.NextRandomLocation;
 import ee.avastaeesti.gameback.status.Status;
@@ -33,12 +32,6 @@ public interface LocationMapper {
     @Mapping(source = "clue", target = "clue")
     @Mapping(source = "imageData", target = "imageData", qualifiedByName = "toBytes")
     Location updateLocation(LocationDto locationDto, @MappingTarget Location location);
-
-    //    todo OK kustutada vist.
-//    @Mapping(source = "id", target = "locationId")
-//    @Mapping(source = "name", target = "locationName")
-//    @Mapping(source = "imageData", target = "imageData", qualifiedByName = "toString")
-//    LocationImage toLocationImage(Location location);
 
     @Mapping(source = "id", target = "locationId")
     @Mapping(source = "name", target = "locationName")

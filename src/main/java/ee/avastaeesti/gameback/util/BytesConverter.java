@@ -11,5 +11,4 @@ public class BytesConverter {
     public static String bytesArrayToString(byte[] bytes) {
         return new String(bytes, StandardCharsets.UTF_8);
     }
-
 }

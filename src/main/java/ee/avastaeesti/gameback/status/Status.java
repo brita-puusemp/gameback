@@ -9,7 +9,6 @@ public enum Status {
     ACTIVE("A"),
     DELETED("D");
 
-
     private final String code;
 
 }
