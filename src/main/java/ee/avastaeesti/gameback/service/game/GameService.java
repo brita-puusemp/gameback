@@ -45,16 +45,13 @@ public class GameService {
             gameLocation.setGame(gameId);
             gameLocation.setLocation(location);
 
-
             gameLocationRepository.save(gameLocation);
-
         }
     }
 
     public Integer createGame(NewGame newGame) {
         User user = userRepository.findById(newGame.getUserId())
                 .orElseThrow(() -> ValidationService.throwForeignKeyNotFoundException("userId", newGame.getUserId()));
-
         Game game = gameMapper.toGame(newGame);
         game.setUser(user);
         gameRepository.save(game);
@@ -77,7 +74,6 @@ public class GameService {
                 gameInfo.setTotalTopScore(leaderBoard.getTotalScore());
                 gameInfo.setUsername(leaderBoard.getUser().getUsername());
             }
-
         }
     }
 

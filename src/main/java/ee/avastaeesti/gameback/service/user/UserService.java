@@ -47,6 +47,12 @@ public class UserService {
     public void updateUser(Integer userId, UserDto userDto) {
         User userForEdit = userRepository.findById(userId)
                 .orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("UserId", userId));
+        if (userRepository.existsByUsername(userDto.getUsername())) {
+            throw new ForbiddenException(USERNAME_EXISTS.getMessage(), USERNAME_EXISTS.getErrorCode());
+        }
+        if (userRepository.existsByEmail(userDto.getEmail())) {
+            throw new ForbiddenException(EMAIL_EXISTS.getMessage(), EMAIL_EXISTS.getErrorCode());
+        }
         userMapper.updateUser(userDto, userForEdit);
         userRepository.save(userForEdit);
     }

@@ -3,7 +3,6 @@ package ee.avastaeesti.gameback.persistence.location;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -20,9 +19,4 @@ public interface LocationRepository extends JpaRepository<Location, Integer> {
 
     @Query("select l from Location l where l.status = :status order by l.name")
     List<Location> findAllActiveLocationsBy(String status);
-
-//todo list id ja statuse järgi, TBD, kas userprofiilil vaja.
-//    @Query("select l from Location l where l.id = :locationId and l.status = :status order by l.name")
-//    List<Location> findLocationsBy(Integer locationId, String status);
-
 }

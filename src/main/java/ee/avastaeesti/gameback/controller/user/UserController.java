@@ -45,6 +45,10 @@ public class UserController {
     @Operation(summary = "Kasutaja info muutmine userId abil")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "403", description = "Kasutaja loomine ebaõnnestus: "
+                    + "Sellise nimega kasutaja on juba olemas (errorCode 112) või "
+                    + "sellise e-mailiga kasutaja on juba süsteemis olemas (errorCode 113)",
+                    content = @Content(schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorCode 115)", content = @Content(schema = @Schema(implementation = ApiError.class))),
     })
     public void updateUser(@RequestParam Integer userId, @RequestBody UserDto userDto) {
@@ -53,6 +57,10 @@ public class UserController {
 
     @DeleteMapping("/user")
     @Operation(summary = "Kasutaja info eemaldamine userId abil")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorCode 115)", content = @Content(schema = @Schema(implementation = ApiError.class))),
+    })
     public void removeUser(@RequestParam Integer userId) {
         userService.removeUser(userId);
     }

@@ -30,6 +30,4 @@ public interface GameMapper {
     GameInfo toGameInfo(Game game);
 
     List<GameInfo> toGameInfos(List<Game> games);
-
-
 }

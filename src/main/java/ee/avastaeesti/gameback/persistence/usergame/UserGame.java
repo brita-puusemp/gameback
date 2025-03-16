@@ -46,5 +46,4 @@ public class UserGame {
     @NotNull
     @Column(name = "is_complete", nullable = false)
     private Boolean isComplete = false;
-
 }

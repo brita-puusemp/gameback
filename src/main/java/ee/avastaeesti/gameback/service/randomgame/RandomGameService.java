@@ -45,7 +45,7 @@ public class RandomGameService {
     public Integer createNewRandomGame(Integer userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> ValidationService.throwPrimaryKeyNotFoundException("userId", userId));
-//TODO Loob uue randmon game tabeli
+// Loob uue randmon game tabeli
         RandomGame randomGame = new RandomGame();
         randomGame.setUser(user);
         randomGame.setTotalLocations(5);

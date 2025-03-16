@@ -40,5 +40,4 @@ public class User {
     @NotNull
     @Column(name = "status", nullable = false, length = Integer.MAX_VALUE)
     private String status;
-
 }
