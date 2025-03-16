@@ -23,7 +23,6 @@ public class LoginController {
             description = """
                     Süsteemist otsitakse username ja password abil kasutajat, kelle konto on ka aktiivne.
                     Kui vastet ei leita vistakse viga errorCode'ga 111""")
-
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "403", description = "Vale kasutajanimi või parool", content = @Content(schema = @Schema(implementation = ApiError.class)))})

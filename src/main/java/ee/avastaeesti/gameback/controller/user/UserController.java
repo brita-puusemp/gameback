@@ -17,6 +17,17 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping("/user")
+    @Operation(summary = "toob ära kasutaja andmed UserId abil")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorCode 115)", content = @Content(schema = @Schema(implementation = ApiError.class))),
+    })
+    public UserDto getUser(@RequestParam Integer userId) {
+        UserDto userDto = userService.getUser(userId);
+        return userDto;
+    }
+
     @PostMapping("/user")
     @Operation(summary = "Uue kasutaja loomine")
     @ApiResponses(value = {
@@ -28,17 +39,6 @@ public class UserController {
     })
     public void addNewUser(@RequestBody UserDto userDto) {
         userService.addNewUser(userDto);
-    }
-
-    @GetMapping("/user")
-    @Operation(summary = "toob ära kasutaja andmed UserId abil")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "404", description = "Ei leidnud primary keyd (errorCode 115)", content = @Content(schema = @Schema(implementation = ApiError.class))),
-    })
-    public UserDto getUser(@RequestParam Integer userId) {
-        UserDto userDto = userService.getUser(userId);
-        return userDto;
     }
 
     @PutMapping("/user")
