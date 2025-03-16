@@ -21,6 +21,5 @@ INSERT INTO game."user" (id, role_id, email, username, password, status) VALUES 
 INSERT INTO game."user" (id, role_id, email, username, password, status) VALUES (default, 2, 'katrin@example.com', 'katrin_87', 'katrin123', 'A');
 INSERT INTO game."user" (id, role_id, email, username, password, status) VALUES (default, 2, 'marek@example.com', 'marekK', 'marek123', 'A');
 INSERT INTO game."user" (id, role_id, email, username, password, status) VALUES (default, 2, 'anna@example.com', 'anna22', 'anna123', 'A');
-INSERT INTO game."user" (id, role_id, email, username, password, status) VALUES (default, 2, 'mart@example.com', 'mart', '123', 'A');
 INSERT INTO game."user" (id, role_id, email, username, password, status) VALUES (default, 2, 'evelin@example.com', 'evelin', 'evelin123', 'A');
 INSERT INTO game."user" (id, role_id, email, username, password, status) VALUES (default, 2, 'siim@example.com', 'siim', 'siim123', 'A');
