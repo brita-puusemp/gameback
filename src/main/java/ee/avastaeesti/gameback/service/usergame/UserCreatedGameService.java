@@ -12,6 +12,7 @@ import ee.avastaeesti.gameback.persistence.game.GameRepository;
 import ee.avastaeesti.gameback.persistence.gamelocation.GameLocation;
 import ee.avastaeesti.gameback.persistence.gamelocation.GameLocationRepository;
 import ee.avastaeesti.gameback.persistence.leaderboard.LeaderBoard;
+import ee.avastaeesti.gameback.persistence.leaderboard.LeaderBoardRepository;
 import ee.avastaeesti.gameback.persistence.location.Location;
 import ee.avastaeesti.gameback.persistence.location.LocationMapper;
 import ee.avastaeesti.gameback.persistence.location.LocationRepository;
@@ -43,6 +44,7 @@ public class UserCreatedGameService {
     private final UserRepository userRepository;
     private final LocationRepository locationRepository;
     private final UserGameRepository userGameRepository;
+    private final LeaderBoardRepository leaderBoardRepository;
     private final GameLocationRepository gameLocationRepository;
     private final UserGameLocationRepository userGameLocationRepository;
     private final UserGameLocationMapper userGameLocationMapper;
@@ -255,12 +257,23 @@ public class UserCreatedGameService {
         double averageTimePerCorrectAnswer = correctCount > 0 ? (double) totalTime / correctCount : 0;
 
         // Arvuta skoor (näiteks: õigete vastuste arv * kaal / keskmine aeg)
-        // Siin võid kasutada oma valemit, mis sobib sinu mängu loogikale
         double score = calculateScore(correctCount, averageTimePerCorrectAnswer);
+
+        // Teisenda skoor täisarvuks (ilma komakohata)
+        int integerScore = (int) Math.round(score); // Ümardamine lähima täisarvuni
+
+        // Teisenda totalTime (sekundites) Instant-iks
+        Instant timestamp = Instant.ofEpochSecond(totalTime);
 
         //Salvesta andmebaasi tabelisse LeaderBoardDto
         LeaderBoard leaderBoard = new LeaderBoard();
-        leaderBoard.setGame(gameOverResults.get);
+        leaderBoard.setGame(gameOverResults.getFirst().getGame());
+        leaderBoard.setUser(gameOverResults.getFirst().getUser());
+        leaderBoard.setTimestamp(timestamp);
+        leaderBoard.setTotalScore(integerScore);
+
+        // Salvesta leaderBoard andmebaasi
+        leaderBoardRepository.save(leaderBoard);
 
         return new GameScoreResults(score);
     }
