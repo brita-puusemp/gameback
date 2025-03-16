@@ -14,6 +14,8 @@ public interface UserGameLocationRepository extends JpaRepository<UserGameLocati
     @Query("select u from UserGameLocation u where u.userGame.id = :userGameId and u.state = :state")
     Optional<UserGameLocation> findNextLocationBy(Integer userGameId, String state);
 
+    Optional<UserGameLocation> findFirstByUserGameIdAndStateOrderByIdAsc(Integer userGameId, String state);
+
     @Query("select u from UserGameLocation u where u.userGame.id = :userGameId and u.location.id = :locationId")
     Optional<UserGameLocation> findAnsweredLocationBy(Integer userGameId, Integer locationId);
 

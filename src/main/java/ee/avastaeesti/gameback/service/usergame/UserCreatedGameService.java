@@ -130,7 +130,7 @@ public class UserCreatedGameService {
         //LP puudub kui hangitakse viimast locationi
 
         Optional<UserGameLocation> locationPendingUserGameLocation = userGameLocationRepository
-                .findNextLocationBy(userGameId, GameState.LOCATION_PENDING.getCode());
+                .findFirstByUserGameIdAndStateOrderByIdAsc(userGameId, GameState.LOCATION_PENDING.getCode());
         if (locationPendingUserGameLocation.isPresent()) {
             UserGameLocation nextLocationPending = locationPendingUserGameLocation.get();
             nextLocationPending.setState(GameState.NEXT_LOCATION.getCode());

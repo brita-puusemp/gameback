@@ -12,8 +12,12 @@ public interface LeaderBoardRepository extends JpaRepository<LeaderBoard, Intege
   @Query("select l from LeaderBoard l where l.game.id = :gameId")
   Optional<LeaderBoard> findUserScoreBy(Integer gameId);
 
-  @Query("select l from LeaderBoard l where l.game.id = :gameId order by l.totalScore DESC LIMIT 1")
-  Optional<LeaderBoard> findTopScoreBy(Integer gameId);
+/*  @Query("select l from LeaderBoard l where l.game.id = :gameId order by l.totalScore DESC")
+  Optional<LeaderBoard> findTopScoreBy(Integer gameId, Pageable pageable);*/
+
+  @Query("select l from LeaderBoard l where l.game.id = :gameId order by l.totalScore DESC")
+  List<LeaderBoard> findTopScoreBy(Integer gameId, Pageable pageable);
+
 
   @Query("select l from LeaderBoard l where l.game.id = :gameId order by l.totalScore DESC")
   List<LeaderBoard> findTopScoresBy(Integer gameId, Pageable pageable);

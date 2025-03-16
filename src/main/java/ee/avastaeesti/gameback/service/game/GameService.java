@@ -18,6 +18,8 @@ import ee.avastaeesti.gameback.persistence.user.UserRepository;
 import ee.avastaeesti.gameback.status.Status;
 import ee.avastaeesti.gameback.validation.ValidationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,7 +61,7 @@ public class GameService {
     }
 
     public List<GameInfo> getAllGames() {
-        List<Game> games = gameRepository.findAll();
+        List<Game> games = gameRepository.findAllGamesBy(Status.ACTIVE.getCode());
         List<GameInfo> gameInfos = gameMapper.toGameInfos(games);
         addTotalScoreAndUsername(gameInfos);
         return gameInfos;
@@ -68,11 +70,14 @@ public class GameService {
     private void addTotalScoreAndUsername(List<GameInfo> gameInfos) {
         for (GameInfo gameInfo : gameInfos) {
 
-            Optional<LeaderBoard> optionalLeaderBoard = leaderBoardRepository.findTopScoreBy(gameInfo.getGameId());
-            if (optionalLeaderBoard.isPresent()) {
-                LeaderBoard leaderBoard = optionalLeaderBoard.get();
+            Pageable top1 = PageRequest.of(0, 1); // Leht 0, suurus 3
+            List<LeaderBoard> optionalLeaderBoard = leaderBoardRepository.findTopScoreBy(gameInfo.getGameId(), top1);
+            if (!optionalLeaderBoard.isEmpty()) {
+                LeaderBoard leaderBoard = optionalLeaderBoard.get(0);
                 gameInfo.setTotalTopScore(leaderBoard.getTotalScore());
                 gameInfo.setUsername(leaderBoard.getUser().getUsername());
+            } else {
+                gameInfo.setTotalTopScore(0); // või mõni muu vaikimisi väärtus
             }
         }
     }
