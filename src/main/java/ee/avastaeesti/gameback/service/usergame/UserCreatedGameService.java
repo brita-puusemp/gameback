@@ -5,6 +5,7 @@ import ee.avastaeesti.gameback.controller.randomgame.dto.NextRandomLocation;
 import ee.avastaeesti.gameback.controller.randomgame.dto.RandomLocationAnswerResult;
 import ee.avastaeesti.gameback.controller.randomgame.dto.UserAnswer;
 import ee.avastaeesti.gameback.controller.usergame.dto.GameScoreResults;
+import ee.avastaeesti.gameback.controller.usergame.dto.TopScores;
 import ee.avastaeesti.gameback.infrastructure.Error;
 import ee.avastaeesti.gameback.infrastructure.exception.DataNotFoundException;
 import ee.avastaeesti.gameback.persistence.game.Game;
@@ -16,7 +17,6 @@ import ee.avastaeesti.gameback.persistence.leaderboard.LeaderBoardRepository;
 import ee.avastaeesti.gameback.persistence.location.Location;
 import ee.avastaeesti.gameback.persistence.location.LocationMapper;
 import ee.avastaeesti.gameback.persistence.location.LocationRepository;
-import ee.avastaeesti.gameback.persistence.randomgamelocation.RandomGameLocation;
 import ee.avastaeesti.gameback.persistence.user.User;
 import ee.avastaeesti.gameback.persistence.user.UserRepository;
 import ee.avastaeesti.gameback.persistence.usergame.UserGame;
@@ -27,7 +27,10 @@ import ee.avastaeesti.gameback.persistence.usergamelocation.UserGameLocationRepo
 import ee.avastaeesti.gameback.status.GameState;
 import ee.avastaeesti.gameback.validation.ValidationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -165,7 +168,7 @@ public class UserCreatedGameService {
                 .orElseThrow(() -> new RuntimeException("Game not found"));
         userGame.setLocationsAnswered(userGame.getLocationsAnswered() + 1);
 
-        if (userGame.getLocationsAnswered() +1 >= userGame.getTotalLocations()) {
+        if (userGame.getLocationsAnswered() + 1 >= userGame.getTotalLocations()) {
             userGame.setIsComplete(true);
         }
         // Salvesta uuendatud mängu andmed
@@ -205,6 +208,7 @@ public class UserCreatedGameService {
 
         return result;
     }
+
     public double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         final int R = 6371; // Maapinna raadius kilomeetrites
 
@@ -239,8 +243,12 @@ public class UserCreatedGameService {
 
     }
 
+    @Transactional
     public GameScoreResults getGameScoreResults(Integer userGameId) {
         List<UserGameLocation> gameOverResults = userGameLocationRepository.findGameBy(userGameId);
+        UserGame userGame = userGameRepository.findById(userGameId).orElseThrow();
+        Game game = userGame.getGame();
+        User user = userGame.getUser();
 
         int correctCount = 0;
         long totalTime = 0;
@@ -267,15 +275,15 @@ public class UserCreatedGameService {
 
         //Salvesta andmebaasi tabelisse LeaderBoardDto
         LeaderBoard leaderBoard = new LeaderBoard();
-        leaderBoard.setGame(gameOverResults.getFirst().getGame());
-        leaderBoard.setUser(gameOverResults.getFirst().getUser());
+        leaderBoard.setGame(game);
+        leaderBoard.setUser(user);
         leaderBoard.setTimestamp(timestamp);
         leaderBoard.setTotalScore(integerScore);
 
         // Salvesta leaderBoard andmebaasi
         leaderBoardRepository.save(leaderBoard);
 
-        return new GameScoreResults(score);
+        return new GameScoreResults(integerScore);
     }
 
     // Näide skoori arvutamise meetodist
@@ -285,7 +293,29 @@ public class UserCreatedGameService {
         return (correctCount * 100) / (averageTimePerCorrectAnswer + 1);
 
 
+    }
 
+    public ArrayList<TopScores> getGameTopScores(Integer userGameId) {
+        UserGame userGame = userGameRepository.findById(userGameId).orElseThrow();
+        Game game = userGame.getGame();
+        String username = userGame.getUser().getUsername();
+
+
+        Pageable top3 = PageRequest.of(0, 3); // Leht 0, suurus 3
+        List<LeaderBoard> leaderBoards = leaderBoardRepository.findTopScoresBy(game.getId(), top3);
+        ArrayList<TopScores> topScores = new ArrayList<>();
+
+        for (LeaderBoard leaderBoard : leaderBoards) {
+
+            TopScores gameTopScores = new TopScores();
+            gameTopScores.setTotalScore(leaderBoard.getTotalScore());
+            gameTopScores.setUserName(username);
+
+            topScores.add(gameTopScores);
+
+        }
+
+        return topScores;
     }
 }
 

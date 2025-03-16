@@ -5,9 +5,12 @@ import ee.avastaeesti.gameback.controller.randomgame.dto.NextRandomLocation;
 import ee.avastaeesti.gameback.controller.randomgame.dto.RandomLocationAnswerResult;
 import ee.avastaeesti.gameback.controller.randomgame.dto.UserAnswer;
 import ee.avastaeesti.gameback.controller.usergame.dto.GameScoreResults;
+import ee.avastaeesti.gameback.controller.usergame.dto.TopScores;
 import ee.avastaeesti.gameback.service.usergame.UserCreatedGameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,6 +45,12 @@ public class UserCreatedGameController {
     public GameScoreResults getGameScoreResults(@RequestParam Integer userGameId) {
         GameScoreResults gameScoreResults = userCreatedGameService.getGameScoreResults(userGameId);
         return gameScoreResults;
+    }
+
+    @GetMapping("/user/game/topscores")
+    public ArrayList<TopScores> getGameTopScores(@RequestParam Integer userGameId) {
+        ArrayList<TopScores> gameTopScores = userCreatedGameService.getGameTopScores(userGameId);
+        return gameTopScores;
     }
 
 
