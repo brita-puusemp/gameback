@@ -309,7 +309,8 @@ public class UserCreatedGameService {
 
             TopScores gameTopScores = new TopScores();
             gameTopScores.setTotalScore(leaderBoard.getTotalScore());
-            gameTopScores.setUserName(username);
+          /*  gameTopScores.setUserName(username);*/
+        gameTopScores.setUserName(leaderBoard.getUser().getUsername());
 
             topScores.add(gameTopScores);
 
