@@ -12,3 +12,7 @@ INSERT INTO game.favourite (id, user_id, location_id, status) VALUES (default, 1
 INSERT INTO game.favourite (id, user_id, location_id, status) VALUES (default, 13, 27, 'A');
 INSERT INTO game.favourite (id, user_id, location_id, status) VALUES (default, 13, 19, 'A');
 INSERT INTO game.favourite (id, user_id, location_id, status) VALUES (default, 13, 18, 'A');
+INSERT INTO game.favourite (id, user_id, location_id, status) VALUES (default, 2, 14, 'A');
+INSERT INTO game.favourite (id, user_id, location_id, status) VALUES (default, 15, 19, 'A');
+INSERT INTO game.favourite (id, user_id, location_id, status) VALUES (default, 15, 10, 'A');
+
